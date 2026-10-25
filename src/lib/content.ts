@@ -75,6 +75,9 @@ export const journey: Era[] = [
     title: "Mobile first",
     subtitle: "iROID Technologies · Independent · Better Tomorrow Online",
     body: "I learned to ship on phones: native Android in Java at iROID Technologies, apps I built for my own clients, then mobile applications at Better Tomorrow Online. Today I write mobile in Flutter.",
+    points: [
+      "At Better Tomorrow Online, part of the team that integrated AEPS (Aadhaar Enabled Payment System) for Federal Bank with NPCI.",
+    ],
   },
   {
     scene: "store",
