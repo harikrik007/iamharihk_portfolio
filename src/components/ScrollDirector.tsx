@@ -78,6 +78,8 @@ export function ScrollDirector() {
       });
     };
 
+    const bar = document.querySelector<HTMLElement>(".progress-bar");
+    let barProgress = -1;
     const railLinks = Array.from(document.querySelectorAll<HTMLElement>("[data-rail]"));
     const navLinks = Array.from(document.querySelectorAll<HTMLElement>("[data-nav]"));
     let currentIndex = -1;
@@ -112,7 +114,11 @@ export function ScrollDirector() {
 
       const scrollable = root.scrollHeight - window.innerHeight;
       sceneState.progress = scrollable > 0 ? window.scrollY / scrollable : 0;
-      root.style.setProperty("--progress", sceneState.progress.toFixed(4));
+      // Set the bar's own transform: a custom property on <html> would restyle the whole page every frame.
+      if (bar && Math.abs(sceneState.progress - barProgress) > 0.0005) {
+        barProgress = sceneState.progress;
+        bar.style.transform = `scaleX(${barProgress.toFixed(4)})`;
+      }
 
       const current = Math.round(morph);
       if (current !== currentIndex) {

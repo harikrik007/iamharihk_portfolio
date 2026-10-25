@@ -210,9 +210,9 @@ html {
   }
 }
 
-/* Scroll progress, set by ScrollDirector. */
+/* Scroll progress; ScrollDirector sets the transform as you scroll. */
 .progress-bar {
-  transform: scaleX(var(--progress, 0));
+  transform: scaleX(0);
 }
 
 /* Darkens the edges so text stays readable over the particles. */
