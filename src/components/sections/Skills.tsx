@@ -31,10 +31,11 @@ export function Skills() {
                     <span tabIndex={0} aria-describedby={id} className="chip chip-link cursor-default">
                       {item}
                     </span>
+                    {/* Not rendered until shown, so it never widens the page on phones. */}
                     <span
                       id={id}
                       role="tooltip"
-                      className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 -translate-x-1/2 rounded-md border border-white/15 bg-ink/95 px-2.5 py-1.5 font-mono text-xs whitespace-nowrap text-paper opacity-0 transition-opacity duration-150 group-focus-within:opacity-100 group-hover:opacity-100"
+                      className="pointer-events-none absolute bottom-full left-0 z-20 mb-2 hidden w-max max-w-[60vw] rounded-md border border-white/15 bg-ink/95 px-2.5 py-1.5 font-mono text-xs text-paper group-focus-within:block group-hover:block"
                     >
                       Used in {used}
                     </span>
