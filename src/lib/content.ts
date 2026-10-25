@@ -29,6 +29,7 @@ export const bootLog = [
   { process: "android.java", when: "2015", state: "ok" },
   { process: "embedded.watasale", when: "2018", state: "ok" },
   { process: "founder.cratehunt", when: "2019", state: "ok" },
+  { process: "vision.plates", when: "2022", state: "ok" },
   { process: "agentic.runtime", when: "2024", state: "ok" },
   { process: "avatar.engine", when: "now", state: "run" },
 ] as const;
@@ -43,7 +44,7 @@ export const about = {
   heading: "Engineer, researcher, one-time founder.",
   paragraphs: [
     "I started in 2015 writing Android apps in Java. A few years later I was writing the embedded software for Watasale, India's first autonomous store, and researching how a shop could check people out without a cashier.",
-    "In 2019 I co-founded CrateHunt Esports: online PUBG tournaments with cash prizes. We built the MVP, learned that teenagers love to compete but rarely have money to spend, and shut it down. It taught me more about product than any job had.",
+    "In 2019 I co-founded CrateHunt Esports: online PUBG tournaments with cash prizes. We built the MVP, learned that teenagers love to compete but rarely have money to spend, and shut it down. It taught me more about product than any job had. In 2022 I worked at a stealth startup that collects parking and toll payments by reading number plates, on a stack that is now patent-pending in the US.",
     "Since 2024 I've been at Immilearn building AgentBaba: the runtime its agents run on, the harness that lets non-developers build their own, a database that AI can operate, and the engine behind Avatar Studio's talking virtual humans.",
   ],
   facts: [
@@ -58,7 +59,7 @@ export const about = {
 };
 
 export type Era = {
-  scene: "phone" | "store" | "crosshair" | "knot";
+  scene: "phone" | "store" | "crosshair" | "plate" | "knot";
   years: string;
   title: string;
   subtitle: string;
@@ -95,6 +96,18 @@ export const journey: Era[] = [
     subtitle: "Co-founder · a two-person startup",
     body: "Online tournaments for PUBG players, with cash prizes for the winners. We built the MVP and ran it, then shut it down. Our players were mostly teenagers: they loved to compete but had little to spend, and no amount of engineering changes that.",
     note: "What it taught me: find out who pays before you build for who plays.",
+  },
+  {
+    scene: "plate",
+    years: "2022",
+    title: "Stealth startup",
+    subtitle: "Parking and toll payments, by number plate",
+    body: "A camera reads a vehicle's number plate, the system confirms which vehicle it really is, and the parking fee or toll is collected from its owner.",
+    points: [
+      "Vehicle plate identification from camera feeds.",
+      "Vehicle identity cross-matching, so the right vehicle is charged.",
+      "A proprietary stack, with a US patent pending.",
+    ],
   },
   {
     scene: "knot",

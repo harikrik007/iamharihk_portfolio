@@ -89,6 +89,22 @@ function roundedRect(w: number, h: number, r: number, s: number): [number, numbe
   return [-hw + r + Math.cos(a) * r, hh - r + Math.sin(a) * r];
 }
 
+type Segment = [x1: number, y1: number, x2: number, y2: number];
+
+/** Returns a sampler that picks a point on a set of 2D line segments, evenly by length. */
+function onSegments(segments: Segment[]) {
+  const lengths = segments.map(([x1, y1, x2, y2]) => Math.hypot(x2 - x1, y2 - y1));
+  const total = lengths.reduce((sum, length) => sum + length, 0);
+  return (rng: Rng): [number, number] => {
+    let d = rng() * total;
+    let k = 0;
+    while (k < segments.length - 1 && d > lengths[k]) d -= lengths[k++];
+    const [x1, y1, x2, y2] = segments[k];
+    const t = d / lengths[k];
+    return [x1 + (x2 - x1) * t, y1 + (y2 - y1) * t];
+  };
+}
+
 /** Splits `count` points between weighted samplers, then applies an optional transform. */
 function compose(
   count: number,
@@ -318,6 +334,98 @@ function crosshair(count: number) {
   );
 }
 
+// Stealth startup: a camera reading a number plate inside its detection box.
+const GLYPHS: Record<string, Segment[]> = {
+  K: [[0, -1, 0, 1], [0.05, 0, 0.95, 1], [0.05, 0, 0.95, -1]],
+  L: [[0, 1, 0, -1], [0, -1, 0.9, -1]],
+  "0": [[0, 1, 1, 1], [1, 1, 1, -1], [1, -1, 0, -1], [0, -1, 0, 1]],
+  "2": [[0, 1, 1, 1], [1, 1, 1, 0], [1, 0, 0, 0], [0, 0, 0, -1], [0, -1, 1, -1]],
+};
+
+function plate(count: number) {
+  const text = "KL 2022";
+  const charW = 0.4;
+  const charH = 0.36;
+  const pitch = 0.56;
+  const startX = -(text.length * pitch - (pitch - charW)) / 2;
+  const glyphs = onSegments(
+    [...text].flatMap((char, i) =>
+      (GLYPHS[char] ?? []).map(([x1, y1, x2, y2]): Segment => [
+        startX + i * pitch + x1 * charW,
+        y1 * charH,
+        startX + i * pitch + x2 * charW,
+        y2 * charH,
+      ]),
+    ),
+  );
+  const bx = 2.6;
+  const by = 0.95;
+  const brackets = onSegments(
+    [-1, 1].flatMap((sx) =>
+      [-1, 1].flatMap((sy): Segment[] => [
+        [sx * bx, sy * by, sx * (bx - 0.5), sy * by],
+        [sx * bx, sy * by, sx * bx, sy * (by - 0.32)],
+      ]),
+    ),
+  );
+  const camera: Vec3 = [-1.5, 1.8, 1.3];
+  return compose(
+    count,
+    12,
+    [
+      [
+        0.16,
+        (rng) => {
+          const [x, y] = roundedRect(4.5, 1.3, 0.14, rng());
+          return [x, y, jitter(rng, 0.02)];
+        },
+      ],
+      [
+        0.05,
+        (rng) => {
+          const [x, y] = roundedRect(4.3, 1.1, 0.1, rng());
+          return [x, y, jitter(rng, 0.01)];
+        },
+      ],
+      [
+        0.36,
+        (rng) => {
+          const [x, y] = glyphs(rng);
+          return [x + jitter(rng, 0.018), y + jitter(rng, 0.018), 0.04 + jitter(rng, 0.02)];
+        },
+      ],
+      [
+        0.12,
+        (rng) => {
+          const [x, y] = brackets(rng);
+          return [x + jitter(rng, 0.015), y + jitter(rng, 0.015), jitter(rng, 0.02)];
+        },
+      ],
+      [0.05, (rng) => [jitter(rng, 2.45), 0.12 + jitter(rng, 0.025), 0.08]],
+      [
+        0.05,
+        (rng) => {
+          const [x, y, z] = inSphere(rng, 0.16);
+          return [camera[0] + x * 1.6, camera[1] + y, camera[2] + z];
+        },
+      ],
+      [
+        0.11,
+        (rng, i) => {
+          const tx = i % 2 ? bx : -bx;
+          const ty = i % 4 < 2 ? by : -by;
+          const t = rng();
+          return [camera[0] + (tx - camera[0]) * t, camera[1] + (ty - camera[1]) * t, camera[2] * (1 - t)];
+        },
+      ],
+    ],
+    (p) => {
+      const [x, y, z] = rotate(p, -0.1, 0.38, 0.03);
+      return [x * 0.76, y * 0.76 - 0.1, z * 0.76];
+    },
+  );
+}
+
 // Immilearn: a torus knot, everything connected to everything.
 function knot(count: number) {
   return compose(
@@ -522,6 +630,7 @@ const BUILDERS: Record<SceneId, (count: number) => Float32Array> = {
   phone,
   store,
   crosshair,
+  plate,
   knot,
   database,
   hub,

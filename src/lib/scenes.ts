@@ -8,11 +8,12 @@ export const SCENES = [
   { id: "phone", label: "Mobile · 2015", side: 1, opacity: 1 },
   { id: "store", label: "Watasale · 2018", side: -1, opacity: 1 },
   { id: "crosshair", label: "CrateHunt · 2019", side: 1, opacity: 1 },
-  { id: "knot", label: "Immilearn · 2024", side: -1, opacity: 1 },
-  { id: "database", label: "AgentBaba", side: 1, opacity: 1 },
-  { id: "hub", label: "Agent Marketplace", side: -1, opacity: 1 },
-  { id: "voice", label: "Avatar Studio", side: 1, opacity: 1 },
-  { id: "lattice", label: "Stack", side: -1, opacity: 0.85 },
+  { id: "plate", label: "Stealth · 2022", side: -1, opacity: 1 },
+  { id: "knot", label: "Immilearn · 2024", side: 1, opacity: 1 },
+  { id: "database", label: "AgentBaba", side: -1, opacity: 1 },
+  { id: "hub", label: "Agent Marketplace", side: 1, opacity: 1 },
+  { id: "voice", label: "Avatar Studio", side: -1, opacity: 1 },
+  { id: "lattice", label: "Stack", side: 1, opacity: 0.85 },
   { id: "galaxy", label: "Contact", side: 0, opacity: 0.55 },
 ] as const;
 

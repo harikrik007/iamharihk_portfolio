@@ -40,7 +40,7 @@ export function Nav() {
         aria-hidden
         className="fixed right-6 bottom-6 z-40 hidden font-mono text-[11px] tracking-[0.2em] text-muted uppercase md:block"
       >
-        01 / 11 · Boot
+        01 / 12 · Boot
       </p>
     </>
   );
