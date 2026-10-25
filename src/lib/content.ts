@@ -37,13 +37,13 @@ export const bootLog = [
 export const stats = [
   { value: "2015", label: "first app shipped" },
   { value: "4", label: "live AI products" },
-  { value: "1st", label: "autonomous store in India, on my embedded software" },
+  { value: "1st", label: "autonomous store in India, on my embedded software and AI models" },
 ];
 
 export const about = {
   heading: "Engineer, researcher, one-time founder.",
   paragraphs: [
-    "I started in 2015 writing Android apps in Java. A few years later I was writing the embedded software for Watasale, India's first autonomous store, and researching how a shop could check people out without a cashier.",
+    "I started in 2015 writing Android apps in Java. A few years later I was writing the embedded software for Watasale, India's first autonomous store, and training the AI models that let it check people out without a cashier.",
     "In 2019 I co-founded CrateHunt Esports: online PUBG tournaments with cash prizes. We built the MVP, learned that teenagers love to compete but rarely have money to spend, and shut it down. It taught me more about product than any job had. In 2022 I worked at a stealth startup that collects parking and toll payments by reading number plates, on a stack that is now patent-pending in the US.",
     "Since 2024 I've been at Immilearn building AgentBaba: the runtime its agents run on, the harness that lets non-developers build their own, a database that AI can operate, and the engine behind Avatar Studio's talking virtual humans.",
   ],
@@ -84,8 +84,9 @@ export const journey: Era[] = [
     body: "A shop with no cashier: walk in, pick up what you want, walk out.",
     points: [
       "Main developer of the embedded software that powered the store.",
+      "Trained the AI models that spot each product and the shopper who picks it up or puts it back, so the right person is billed: cashierless checkout in the spirit of Amazon Go.",
+      "Built the training and inference pipeline for those models.",
       "Main software engineer on 360, the platform behind it.",
-      "AI research into an unmanned, cashierless checkout, in the spirit of Amazon Go.",
     ],
     note: "Watasale was later acquired by Amazon. I had moved on in 2019, before the deal.",
   },
@@ -184,7 +185,13 @@ export const skills = [
   },
   {
     group: "Machine learning & R&D",
-    items: ["LLM applications", "Computer vision for cashierless retail", "Real-time avatar engines"],
+    items: [
+      "LLM applications",
+      "Product & person detection",
+      "Training & inference pipelines",
+      "Computer vision for cashierless retail",
+      "Real-time avatar engines",
+    ],
   },
   { group: "Web & backend", items: ["FastAPI", "Django", "Next.js", "React"] },
   { group: "Mobile", items: ["Flutter", "Java / Android"] },
