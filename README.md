@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 3D particle portfolio
 
-## Getting Started
+The personal site of Harikrishnan M, built with Next.js 16 (App Router), React Three Fiber and Lenis. Clone it and make it your own.
 
-First, run the development server:
+A single field of particles (10k on desktop, 5k on phones) changes shape for each chapter as you scroll: agent core → helix → phone → store → crosshair → knot → database → hub → voice ring → stack lattice → galaxy. All the text is ordinary HTML, so search engines and screen readers read it normally. If a browser can't run WebGL, the page still works without the 3D layer.
+
+**Stack:** Next.js 16 · React 19 · TypeScript · Tailwind CSS 4 · three.js · @react-three/fiber · @react-three/drei · Lenis
+
+## Run it
+
+You need Node.js 20.9 or newer.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/harikrik007/iamharihk_portfolio.git
+cd iamharihk_portfolio
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build, every page static
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Make it yours
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Your details.** Open `src/lib/content.ts` and replace everything in it: name, initials, title, links, bio, journey, projects, skills and the contact copy. Every component reads its text from this file.
+2. **The tab icon.** In `src/app/icon.svg`, change the `HM` text to your initials.
+3. **Your story's shapes.** `src/lib/scenes.ts` lists the scenes in scroll order, with the label shown in the corner and which side the shape sits on. The shapes themselves are drawn in `src/components/scene/shapes.ts`. Each one is a small function that returns `count` points, so you can reuse an existing shape or write a new one.
+4. **Sections.** The page is put together in `src/app/page.tsx` from the components in `src/components/sections/`. Each `<Stage scene="...">` is a full-screen section. While it sits in the middle of the screen, the particles hold the shape for that scene.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To add a stage, add an entry to `SCENES`, add a builder with the same id in `shapes.ts`, and add a `<Stage scene="id">` at the matching place in the page. The number of `Stage`s must match the number of `SCENES`, in the same order.
 
-## Learn More
+## Where things live
 
-To learn more about Next.js, take a look at the following resources:
+| What | File |
+| --- | --- |
+| All copy (bio, journey, projects, skills, links) | `src/lib/content.ts` |
+| Scene order, side, opacity | `src/lib/scenes.ts` |
+| Point-cloud shapes | `src/components/scene/shapes.ts` |
+| Morph shader (colours, point size, swirl) | `src/components/scene/particleShaders.ts` |
+| Particle count and quality on slower devices | `src/components/scene/SceneCanvas.tsx` |
+| Scroll → morph, smooth scroll, reveal animations | `src/components/ScrollDirector.tsx` |
+| Theme colours and fonts | `src/app/globals.css`, `src/app/layout.tsx` |
+| Social share image | `src/app/opengraph-image.tsx` |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Import the repo into [Vercel](https://vercel.com/new), or any host that runs Next.js. Set `NEXT_PUBLIC_SITE_URL` to your final domain (for example `https://yourname.dev`) so links in social share previews point to the right address.
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The code is [MIT](LICENSE), so use it for your own site. The text in `src/lib/content.ts` describes me and my work. Please replace it with your own instead of publishing it under your name.
