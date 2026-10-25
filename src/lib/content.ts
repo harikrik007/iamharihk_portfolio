@@ -54,7 +54,7 @@ export const about = {
       label: "Studied",
       value: "BTech, Electrical, Electronics & Communication · College of Engineering, Perumon · 2011–15",
     },
-    { label: "Right now", value: "Heads-down on Avatar Studio" },
+    { label: "Right now", value: "Building Avatar Studio" },
   ],
 };
 
@@ -207,5 +207,5 @@ export const liveProducts = [
 
 export const contact = {
   heading: "Let's talk agents.",
-  body: "I'm heads-down on Avatar Studio and not looking for a new role. But if you're building with agents, avatars or a startup idea, I'm always happy to compare notes.",
+  body: "Building something with AI agents, avatars or a new product idea? I'd love to hear about it.",
 };
