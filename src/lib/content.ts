@@ -95,7 +95,7 @@ export const journey: Era[] = [
     title: "CrateHunt Esports",
     subtitle: "Co-founder · a two-person startup",
     body: "Online tournaments for PUBG players, with cash prizes for the winners. We built the MVP and ran it, then shut it down. Our players were mostly teenagers: they loved to compete but had little to spend, and no amount of engineering changes that.",
-    note: "What it taught me: find out who pays before you build for who plays.",
+    note: "What it taught me: before you build something, make sure the people who will use it can pay for it.",
   },
   {
     scene: "plate",
