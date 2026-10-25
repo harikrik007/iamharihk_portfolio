@@ -6,7 +6,7 @@ export const SCENES = [
   { id: "core", label: "Boot", side: 1, opacity: 1 },
   { id: "helix", label: "About", side: -1, opacity: 1 },
   { id: "phone", label: "Mobile · 2015", side: 1, opacity: 1 },
-  { id: "store", label: "Watasale · 2018", side: -1, opacity: 1 },
+  { id: "cart", label: "Watasale · 2018", side: -1, opacity: 1 },
   { id: "crosshair", label: "CrateHunt · 2019", side: 1, opacity: 1 },
   { id: "plate", label: "Stealth · 2022", side: -1, opacity: 1 },
   { id: "knot", label: "Immilearn · 2024", side: 1, opacity: 1 },

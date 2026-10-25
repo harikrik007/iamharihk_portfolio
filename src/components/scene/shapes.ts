@@ -89,19 +89,29 @@ function roundedRect(w: number, h: number, r: number, s: number): [number, numbe
   return [-hw + r + Math.cos(a) * r, hh - r + Math.sin(a) * r];
 }
 
+type Line = [from: Vec3, to: Vec3];
 type Segment = [x1: number, y1: number, x2: number, y2: number];
 
-/** Returns a sampler that picks a point on a set of 2D line segments, evenly by length. */
-function onSegments(segments: Segment[]) {
-  const lengths = segments.map(([x1, y1, x2, y2]) => Math.hypot(x2 - x1, y2 - y1));
+/** Returns a sampler that picks a point on a set of 3D line segments, evenly by length. */
+function onLines(lines: Line[]) {
+  const lengths = lines.map(([a, b]) => Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2]));
   const total = lengths.reduce((sum, length) => sum + length, 0);
-  return (rng: Rng): [number, number] => {
+  return (rng: Rng): Vec3 => {
     let d = rng() * total;
     let k = 0;
-    while (k < segments.length - 1 && d > lengths[k]) d -= lengths[k++];
-    const [x1, y1, x2, y2] = segments[k];
+    while (k < lines.length - 1 && d > lengths[k]) d -= lengths[k++];
+    const [a, b] = lines[k];
     const t = d / lengths[k];
-    return [x1 + (x2 - x1) * t, y1 + (y2 - y1) * t];
+    return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+  };
+}
+
+/** The same as onLines, for flat 2D segments. */
+function onSegments(segments: Segment[]) {
+  const pick = onLines(segments.map(([x1, y1, x2, y2]): Line => [[x1, y1, 0], [x2, y2, 0]]));
+  return (rng: Rng): [number, number] => {
+    const [x, y] = pick(rng);
+    return [x, y];
   };
 }
 
@@ -230,61 +240,108 @@ function phone(count: number) {
   );
 }
 
-// Watasale: shelves of products watched by ceiling cameras.
-function store(count: number) {
-  const unitX = (unit: number) => (unit - 1) * 1.55;
-  const levelY = (level: number) => -1.25 + level * 0.75;
-  const cameraX = (c: number) => -2.1 + c * 1.4;
+// Watasale: a shopping trolley carrying a brain, for AI-powered checkout.
+function cart(count: number) {
+  // A point on the wire basket. u runs back to front, v across, h bottom to top.
+  const basket = (u: number, v: number, h: number): Vec3 => {
+    const x = -0.85 + 1.8 * u + (-0.25 + 0.5 * u) * h;
+    return [x, -0.3 + 1.2 * h, (2 * v - 1) * (0.55 + 0.15 * h)];
+  };
+  const rim = (h: number): Line[] => [
+    [basket(0, 0, h), basket(1, 0, h)],
+    [basket(0, 1, h), basket(1, 1, h)],
+    [basket(0, 0, h), basket(0, 1, h)],
+    [basket(1, 0, h), basket(1, 1, h)],
+  ];
+  const range = (n: number) => Array.from({ length: n + 1 }, (_, k) => k / n);
+  const rims = onLines([...rim(1), ...rim(0)]);
+  const mesh = onLines([
+    ...rim(0.35),
+    ...rim(0.7),
+    ...range(10).flatMap((u): Line[] => [
+      [basket(u, 0, 0), basket(u, 0, 1)],
+      [basket(u, 1, 0), basket(u, 1, 1)],
+    ]),
+    ...range(6).flatMap((v): Line[] => [
+      [basket(0, v, 0), basket(0, v, 1)],
+      [basket(1, v, 0), basket(1, v, 1)],
+    ]),
+    ...range(4).map((v): Line => [basket(0, v, 0), basket(1, v, 0)]),
+  ]);
+
+  const handleX = -1.45;
+  const handleY = 1.2;
+  const baseY = -1.2;
+  const wheelY = -1.36;
+  const wheels: Vec3[] = [
+    [-0.95, wheelY, -0.5],
+    [-0.95, wheelY, 0.5],
+    [0.95, wheelY, -0.5],
+    [0.95, wheelY, 0.5],
+  ];
+  const frame = onLines([
+    ...[-1, 1].flatMap((s): Line[] => [
+      [basket(0, (s + 1) / 2, 1), [handleX, handleY, s * 0.72]],
+      [[-0.95, baseY, s * 0.5], [handleX, handleY, s * 0.72]],
+      [[-0.95, baseY, s * 0.5], [0.95, baseY, s * 0.5]],
+      [basket(1, (s + 1) / 2, 0), [0.95, baseY, s * 0.5]],
+    ]),
+    [[-0.95, baseY, -0.5], [-0.95, baseY, 0.5]],
+    [[0.95, baseY, -0.5], [0.95, baseY, 0.5]],
+    ...wheels.map(([x, , z]): Line => [[x, baseY, z], [x, wheelY, z]]),
+  ]);
+
+  // The brain: two hemispheres side by side, sitting in the basket.
+  const brainAt = (rng: Rng): { p: Vec3; d: Vec3; s: number } => {
+    const s = rng() < 0.5 ? -1 : 1;
+    const d = onSphere(rng, 1);
+    const dz = d[2] * s < 0 ? d[2] * 0.25 : d[2];
+    const dy = d[1] < 0 ? d[1] * 0.75 : d[1];
+    return { p: [0.1 + d[0] * 1.12, 1.15 + dy * 0.62, s * 0.18 + dz * 0.4], d, s };
+  };
+  // Thin wavy maze-like lines on the surface read as the brain's folds.
+  const fold = ([dx, dy, dz]: Vec3, s: number) =>
+    Math.sin(6.5 * dx + 2.5 * Math.sin(5 * dy)) + Math.sin(6.5 * dy + 2.5 * Math.sin(4.5 * dx + 3 * dz * s));
+
   return compose(
     count,
     4,
     [
       [
-        0.22,
-        (rng) => [unitX(Math.floor(rng() * 3)) + jitter(rng, 0.6), levelY(Math.floor(rng() * 4)), jitter(rng, 0.28)],
-      ],
-      [
         0.08,
-        (rng) => [
-          unitX(Math.floor(rng() * 3)) + (rng() < 0.5 ? -0.6 : 0.6),
-          -1.3 + rng() * 2.6,
-          rng() < 0.5 ? -0.28 : 0.28,
-        ],
-      ],
-      [
-        0.32,
         (rng) => {
-          const level = Math.floor(rng() * 4);
-          const slot = Math.floor(rng() * 4);
-          const productHeight = 0.38 * (0.6 + ((slot + level) % 3) * 0.2);
-          return [
-            unitX(Math.floor(rng() * 3)) - 0.45 + slot * 0.3 + jitter(rng, 0.1),
-            levelY(level) + 0.05 + rng() * productHeight,
-            jitter(rng, 0.18),
-          ];
+          const [x, y, z] = rims(rng);
+          return [x + jitter(rng, 0.012), y + jitter(rng, 0.012), z + jitter(rng, 0.012)];
         },
       ],
+      [0.18, (rng) => mesh(rng)],
       [
-        0.14,
-        (rng) => {
-          const line = Math.floor(rng() * 9);
-          const along = jitter(rng, 2.6);
-          return rng() < 0.5 ? [-2.6 + line * 0.65, -1.75, along * 0.6] : [along, -1.75, -1.5 + line * 0.375];
-        },
+        0.05,
+        (rng) => [handleX + jitter(rng, 0.03), handleY + jitter(rng, 0.03), jitter(rng, 0.78)],
       ],
-      [0.06, (rng, i) => [cameraX(i % 4) + jitter(rng, 0.07), 2.0 + jitter(rng, 0.07), 0.6 + jitter(rng, 0.07)]],
+      [0.1, (rng) => frame(rng)],
       [
-        0.18,
-        (rng, i) => {
-          const t = rng();
-          const spread = t * 0.9;
+        0.05,
+        (rng) => {
+          const [wx, wy, wz] = wheels[Math.floor(rng() * 4)];
           const a = rng() * TAU;
-          return [cameraX(i % 4) + Math.cos(a) * spread, 2.0 - t * 3.6, 0.6 + Math.sin(a) * spread * 0.6 - t * 0.4];
+          return [wx + Math.cos(a) * 0.15, wy + Math.sin(a) * 0.15, wz + jitter(rng, 0.04)];
         },
       ],
+      [
+        0.42,
+        (rng) => {
+          for (let tries = 0; tries < 40; tries++) {
+            const { p, d, s } = brainAt(rng);
+            if (Math.abs(fold(d, s)) < 0.16) return p;
+          }
+          return brainAt(rng).p;
+        },
+      ],
+      [0.05, (rng) => brainAt(rng).p],
     ],
     (p) => {
-      const [x, y, z] = rotate(p, 0.25, -0.3);
+      const [x, y, z] = rotate([p[0], p[1] - 0.15, p[2]], 0.25, -0.55);
       return [x * 0.82, y * 0.82, z * 0.82];
     },
   );
@@ -765,7 +822,7 @@ const BUILDERS: Record<SceneId, (count: number) => Float32Array> = {
   core,
   helix,
   phone,
-  store,
+  cart,
   crosshair,
   plate,
   knot,

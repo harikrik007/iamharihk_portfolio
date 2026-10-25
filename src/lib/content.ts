@@ -61,7 +61,7 @@ export const about = {
 };
 
 export type Era = {
-  scene: "phone" | "store" | "crosshair" | "plate" | "knot";
+  scene: "phone" | "cart" | "crosshair" | "plate" | "knot";
   years: string;
   title: string;
   subtitle: string;
@@ -82,7 +82,7 @@ export const journey: Era[] = [
     ],
   },
   {
-    scene: "store",
+    scene: "cart",
     years: "2018 – 2019",
     title: "Watasale",
     subtitle: "India's first autonomous store",
