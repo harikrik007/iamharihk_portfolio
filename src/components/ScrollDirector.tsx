@@ -5,7 +5,11 @@ import Lenis from "lenis";
 import { SCENES } from "@/lib/scenes";
 import { sceneState } from "@/lib/sceneState";
 
-type Stage = { center: number; index: number };
+type Box = { left: number; right: number; top: number; bottom: number };
+type Stage = { center: number; index: number; column: Box | null };
+
+// Extra room around each text column before particles start to fade.
+const TEXT_PAD = 20;
 
 // Drives everything scroll-related: smooth scrolling, the scene morph value,
 // the progress bar, the scene HUD and reveal-on-scroll. Renders nothing.
@@ -22,12 +26,39 @@ export function ScrollDirector() {
     const measure = () => {
       stages = Array.from(document.querySelectorAll<HTMLElement>("[data-scene]")).map((el) => {
         const rect = el.getBoundingClientRect();
-        return { center: rect.top + window.scrollY + rect.height / 2, index: Number(el.dataset.scene) };
+        const col = el.querySelector("[data-text-column]")?.getBoundingClientRect();
+        return {
+          center: rect.top + window.scrollY + rect.height / 2,
+          index: Number(el.dataset.scene),
+          column: col
+            ? { left: col.left, right: col.right, top: col.top + window.scrollY, bottom: col.bottom + window.scrollY }
+            : null,
+        };
       });
     };
     measure();
     const resizeObserver = new ResizeObserver(measure);
     resizeObserver.observe(document.body);
+
+    // Hands the shader the text columns nearest the middle of the screen.
+    const writeTextRects = (focus: number) => {
+      const top = window.scrollY;
+      const bottom = top + window.innerHeight;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const visible = stages
+        .filter((s) => s.column && s.column.bottom > top && s.column.top < bottom)
+        .sort((a, b) => Math.abs(a.center - focus) - Math.abs(b.center - focus));
+      const rects = sceneState.textRects;
+      rects.fill(9);
+      visible.slice(0, 2).forEach(({ column }, k) => {
+        const c = column!;
+        rects[k * 4] = ((c.left - TEXT_PAD) / w) * 2 - 1;
+        rects[k * 4 + 1] = 1 - ((c.bottom - top + TEXT_PAD) / h) * 2;
+        rects[k * 4 + 2] = ((c.right + TEXT_PAD) / w) * 2 - 1;
+        rects[k * 4 + 3] = 1 - ((c.top - top - TEXT_PAD) / h) * 2;
+      });
+    };
 
     const hud = document.getElementById("scene-hud");
     let hudIndex = -1;
@@ -52,6 +83,7 @@ export function ScrollDirector() {
         }
       }
       sceneState.morph = morph;
+      writeTextRects(focus);
 
       const scrollable = root.scrollHeight - window.innerHeight;
       sceneState.progress = scrollable > 0 ? window.scrollY / scrollable : 0;

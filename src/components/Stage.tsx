@@ -23,7 +23,9 @@ export function Stage({
   return (
     <section id={id} data-scene={index} className={`flex min-h-svh scroll-mt-0 items-center py-28 md:py-36 ${className}`}>
       <div className="mx-auto w-full max-w-6xl px-6 md:px-10">
-        <div className={`${wide ? "max-w-2xl" : "max-w-xl"} ${align}`}>{children}</div>
+        <div data-text-column className={`${wide ? "max-w-2xl" : "max-w-xl"} ${align}`}>
+          {children}
+        </div>
       </div>
     </section>
   );

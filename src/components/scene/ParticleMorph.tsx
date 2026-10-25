@@ -9,6 +9,8 @@ import { fragmentShader, vertexShader } from "./particleShaders";
 import { buildShape, mulberry32 } from "./shapes";
 
 const LAST_PAIR = SCENES.length - 2;
+// Width of the soft edge where particles fade out next to text.
+const FEATHER_PX = 56;
 const { damp, lerp, clamp } = THREE.MathUtils;
 
 export function ParticleMorph({ count }: { count: number }) {
@@ -40,6 +42,10 @@ export function ParticleMorph({ count }: { count: number }) {
           uOpacity: { value: 1 },
           uColorA: { value: new THREE.Color("#ff7a3d") },
           uColorB: { value: new THREE.Color("#3ddcff") },
+          uTextA: { value: new THREE.Vector4(9, 9, 9, 9) },
+          uTextB: { value: new THREE.Vector4(9, 9, 9, 9) },
+          uFeather: { value: new THREE.Vector2(0.1, 0.1) },
+          uTextMin: { value: 0.12 },
         },
         transparent: true,
         depthWrite: false,
@@ -87,6 +93,13 @@ export function ParticleMorph({ count }: { count: number }) {
     u.uMotion.value = motion;
     u.uPixelRatio.value = state.gl.getPixelRatio();
     u.uOpacity.value = lerp(from.opacity, to.opacity, ease) * (narrow ? 0.7 : 1);
+
+    const r = sceneState.textRects;
+    u.uTextA.value.set(r[0], r[1], r[2], r[3]);
+    u.uTextB.value.set(r[4], r[5], r[6], r[7]);
+    u.uFeather.value.set((2 * FEATHER_PX) / state.size.width, (2 * FEATHER_PX) / state.size.height);
+    // Phones have no empty side for the shape, so it stays faintly visible behind the text.
+    u.uTextMin.value = narrow ? 0.3 : 0.12;
 
     const side = narrow ? 0 : lerp(from.side, to.side, ease);
     g.position.x = damp(g.position.x, side * viewport.width * 0.24, 3, dt);

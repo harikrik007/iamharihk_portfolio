@@ -4,6 +4,12 @@ uniform float uMix;
 uniform float uSize;
 uniform float uPixelRatio;
 uniform float uMotion;
+// Text columns on screen as (x0, y0, x1, y1) in NDC, the soft edge width in
+// NDC, and how visible particles stay over text.
+uniform vec4 uTextA;
+uniform vec4 uTextB;
+uniform vec2 uFeather;
+uniform float uTextMin;
 
 attribute vec3 aPosA;
 attribute vec3 aPosB;
@@ -12,6 +18,13 @@ attribute float aSeed;
 varying float vTint;
 varying float vSpark;
 varying float vFade;
+varying float vText;
+
+// 0 inside the rectangle, rising to 1 one feather-width outside it.
+float outside(vec4 r, vec2 p) {
+  vec2 d = max(r.xy - p, p - r.zw) / uFeather;
+  return clamp(max(d.x, d.y), 0.0, 1.0);
+}
 
 void main() {
   // Stagger the morph per particle so shapes dissolve rather than slide.
@@ -44,6 +57,10 @@ void main() {
   vTint = smoothstep(0.25, 0.75, tint);
   vSpark = step(0.965, aSeed);
   vFade = smoothstep(14.0, 4.0, -mv.z);
+
+  vec2 ndc = gl_Position.xy / gl_Position.w;
+  float clear = min(outside(uTextA, ndc), outside(uTextB, ndc));
+  vText = mix(uTextMin, 1.0, smoothstep(0.0, 1.0, clear));
 }
 `;
 
@@ -55,6 +72,7 @@ uniform float uOpacity;
 varying float vTint;
 varying float vSpark;
 varying float vFade;
+varying float vText;
 
 void main() {
   float d = length(gl_PointCoord - 0.5);
@@ -62,6 +80,6 @@ void main() {
   float alpha = pow(1.0 - d * 2.0, 1.7);
   vec3 color = mix(uColorA, uColorB, vTint);
   color = mix(color, vec3(1.0), vSpark * 0.75);
-  gl_FragColor = vec4(color, alpha * uOpacity * (0.85 + vSpark * 0.15) * vFade);
+  gl_FragColor = vec4(color, alpha * uOpacity * (0.85 + vSpark * 0.15) * vFade * vText);
 }
 `;
