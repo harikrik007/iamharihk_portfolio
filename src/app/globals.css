@@ -210,6 +210,12 @@ html {
   }
 }
 
+/* The Avatar Studio widget's frame is a light page. Under this site's dark color-scheme the browser paints an
+   opaque white backdrop behind it, which boxed the floating avatar in white; a matching scheme keeps it see-through. */
+iframe[src^="https://avatar.agentbaba.ai/embed/"] {
+  color-scheme: light;
+}
+
 /* Scroll progress; ScrollDirector sets the transform as you scroll. */
 .progress-bar {
   transform: scaleX(0);
