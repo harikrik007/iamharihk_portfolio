@@ -217,6 +217,27 @@ export const skills = [
   { group: "Languages", items: ["Python", "JavaScript / TypeScript", "Dart", "Java", "C / C++"] },
 ];
 
+// Where each skill was used, shown as a tooltip on its chip. Only skills tied to
+// a specific project are listed; the rest show no tooltip.
+export const skillUses: Record<string, string> = {
+  "Agent runtimes": "AgentBaba",
+  "Harness engineering": "Agent Marketplace",
+  "Tool use & actions": "AgentBaba & Avatar Studio",
+  "Multi-agent workflows": "Agent Marketplace worker teams",
+  "Agent memory & state": "AgentBaba",
+  "Product & person detection": "Watasale",
+  "Training & inference pipelines": "Watasale",
+  "Computer vision for cashierless retail": "Watasale",
+  "Real-time avatar engines": "Avatar Studio",
+  "Embedded software": "Watasale",
+  "Database design": "AgentBaba's AI-operable database",
+  Flutter: "AgentBaba",
+  Dart: "AgentBaba",
+  Python: "AgentBaba",
+  "Java / Android": "iROID & Better Tomorrow Online",
+  Java: "iROID & Better Tomorrow Online",
+};
+
 export const liveProducts = [
   { name: "AgentBaba", url: "https://agentbaba.ai" },
   { name: "Studio", url: "https://studio.agentbaba.ai" },

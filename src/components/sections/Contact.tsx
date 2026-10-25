@@ -1,4 +1,5 @@
 import { contact, liveProducts, profile } from "@/lib/content";
+import { CopyEmail } from "../CopyEmail";
 import { ExternalLink } from "../ExternalLink";
 import { delay, SectionLabel, Stage } from "../Stage";
 
@@ -17,11 +18,33 @@ export function Contact() {
           Message me on LinkedIn
         </ExternalLink>
         {profile.email && (
-          <a href={`mailto:${profile.email}`} className="btn btn-ghost">
-            {profile.email}
-          </a>
+          <>
+            <a href={`mailto:${profile.email}`} className="btn btn-ghost">
+              {profile.email}
+            </a>
+            <CopyEmail email={profile.email} />
+          </>
         )}
       </div>
+      {(profile.cv || profile.github || profile.calendar) && (
+        <div data-reveal className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2" style={delay(280)}>
+          {profile.cv && (
+            <a href={profile.cv} download className="btn btn-link">
+              Download CV
+            </a>
+          )}
+          {profile.github && (
+            <ExternalLink href={profile.github} className="btn btn-link">
+              GitHub
+            </ExternalLink>
+          )}
+          {profile.calendar && (
+            <ExternalLink href={profile.calendar} className="btn btn-link">
+              Book a call
+            </ExternalLink>
+          )}
+        </div>
+      )}
 
       <div data-reveal className="mt-16" style={delay(320)}>
         <p className="label">Live products I work on</p>
@@ -36,8 +59,13 @@ export function Contact() {
         </ul>
       </div>
 
-      <footer className="mt-20 font-mono text-xs tracking-[0.12em] text-muted uppercase">
-        © 2026 {profile.name} · Built with Next.js & React Three Fiber
+      <footer className="mt-20 flex flex-col items-center gap-5">
+        <a href="#top" className="btn btn-ghost min-h-11 font-mono text-xs tracking-[0.12em] uppercase">
+          <span aria-hidden>↑</span> Back to top
+        </a>
+        <p className="font-mono text-xs tracking-[0.12em] text-muted uppercase">
+          © 2026 {profile.name} · Built with Next.js & React Three Fiber
+        </p>
       </footer>
     </Stage>
   );

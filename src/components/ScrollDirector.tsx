@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
+import { profile } from "@/lib/content";
 import { SCENES } from "@/lib/scenes";
 import { sceneState } from "@/lib/sceneState";
 
@@ -10,6 +11,16 @@ type Stage = { center: number; index: number; column: Box | null };
 
 // Extra room around each text column before particles start to fade.
 const TEXT_PAD = 20;
+
+// A hello for anyone who opens the dev tools.
+function greetConsole() {
+  const art = [" _   _ __  __", "| | | |  \\/  |", "| |_| | |\\/| |", "|  _  | |  | |", "|_| |_|_|  |_|"].join("\n");
+  console.log(
+    `%c${art}%c\n\n> system online\n> building something with agents? ${profile.email}\n`,
+    "color:#3ddcff;font-family:monospace;font-weight:bold",
+    "color:#9ea3b0;font-family:monospace",
+  );
+}
 
 function toggleCurrent(el: HTMLElement, on: boolean, value: string) {
   if (on) el.setAttribute("aria-current", value);
@@ -23,6 +34,7 @@ export function ScrollDirector() {
   useEffect(() => {
     const root = document.documentElement;
     root.classList.add("js");
+    greetConsole();
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     sceneState.reducedMotion = reduced;
