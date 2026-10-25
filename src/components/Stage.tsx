@@ -17,9 +17,12 @@ export function Stage({
   const index = sceneIndex(scene);
   const { side, anchor } = SCENES[index];
   const align = side === 1 ? "md:mr-auto" : side === -1 ? "md:ml-auto" : "mx-auto text-center";
+  // The hero fills the first screen; later stages are only as tall as their copy
+  // needs, with enough room for the shape to morph while the text is on screen.
+  const height = index === 0 ? "min-h-svh py-24 md:py-28" : "min-h-[60svh] py-14";
 
   return (
-    <section id={anchor} data-scene={index} className={`flex min-h-svh scroll-mt-0 items-center py-28 md:py-36 ${className}`}>
+    <section id={anchor} data-scene={index} className={`flex ${height} items-center ${className}`}>
       <div className="mx-auto w-full max-w-6xl px-6 md:px-10">
         <div data-text-column className={`${wide ? "max-w-2xl" : "max-w-xl"} ${align}`}>
           {children}

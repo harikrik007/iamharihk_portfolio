@@ -11,8 +11,14 @@ type Stage = { center: number; index: number; column: Box | null };
 // Extra room around each text column before particles start to fade.
 const TEXT_PAD = 20;
 
+function toggleCurrent(el: HTMLElement, on: boolean, value: string) {
+  if (on) el.setAttribute("aria-current", value);
+  else el.removeAttribute("aria-current");
+}
+
 // Drives everything scroll-related: smooth scrolling, the scene morph value,
-// the progress bar, the scene HUD and reveal-on-scroll. Renders nothing.
+// text-safe zones, the progress bar, the chapter rail and active header link,
+// and reveal-on-scroll. Renders nothing.
 export function ScrollDirector() {
   useEffect(() => {
     const root = document.documentElement;
@@ -60,8 +66,15 @@ export function ScrollDirector() {
       });
     };
 
-    const hud = document.getElementById("scene-hud");
-    let hudIndex = -1;
+    const railLinks = Array.from(document.querySelectorAll<HTMLElement>("[data-rail]"));
+    const navLinks = Array.from(document.querySelectorAll<HTMLElement>("[data-nav]"));
+    let currentIndex = -1;
+    // Marks the current chapter on the rail and its section in the header.
+    const markCurrent = (index: number) => {
+      railLinks.forEach((el) => toggleCurrent(el, Number(el.dataset.rail) === index, "step"));
+      const section = SCENES[index].section;
+      navLinks.forEach((el) => toggleCurrent(el, el.dataset.nav === section, "true"));
+    };
 
     const update = () => {
       if (!stages.length) return;
@@ -90,10 +103,9 @@ export function ScrollDirector() {
       root.style.setProperty("--progress", sceneState.progress.toFixed(4));
 
       const current = Math.round(morph);
-      if (hud && current !== hudIndex) {
-        hudIndex = current;
-        const total = String(SCENES.length).padStart(2, "0");
-        hud.textContent = `${String(current + 1).padStart(2, "0")} / ${total} · ${SCENES[current].label}`;
+      if (current !== currentIndex) {
+        currentIndex = current;
+        markCurrent(current);
       }
     };
 
@@ -124,7 +136,7 @@ export function ScrollDirector() {
           reveal.unobserve(entry.target);
         }
       },
-      { rootMargin: "0px 0px -12% 0px" },
+      { rootMargin: "0px 0px -10% 0px" },
     );
     document.querySelectorAll("[data-reveal]").forEach((el) => reveal.observe(el));
 

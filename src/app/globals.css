@@ -131,6 +131,61 @@ html {
   }
 }
 
+/* Chapter rail: the current tick grows into the brand gradient. Labels sit
+   outside the link box, so hidden labels never catch clicks meant for the page. */
+.rail-link {
+  position: relative;
+}
+.rail-tick {
+  transition:
+    width 0.3s ease,
+    background-color 0.3s ease;
+}
+.rail-label {
+  position: absolute;
+  right: calc(100% - 0.25rem);
+  opacity: 0;
+  transform: translateX(4px);
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+.rail-link:hover .rail-label,
+.rail-link:focus-visible .rail-label {
+  opacity: 1;
+  transform: none;
+}
+.rail-link:hover .rail-tick {
+  width: 1.25rem;
+  background-color: rgb(236 236 241 / 0.7);
+}
+.rail-link[aria-current] .rail-tick {
+  width: 1.75rem;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-ember), var(--color-cyan));
+}
+/* Only wide screens have room to keep the current label on show. */
+@media (min-width: 1400px) {
+  .rail-link[aria-current] .rail-label {
+    opacity: 1;
+    transform: none;
+    color: var(--color-paper);
+  }
+}
+
+.menu-in:not([hidden]) {
+  animation: fade-in 0.2s ease both;
+}
+
+@media (pointer: coarse) {
+  .chip-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
 /* Data flowing along a diagram connector: down on phones, across on wider screens. */
 .flow {
   background: repeating-linear-gradient(180deg, var(--color-cyan) 0 4px, transparent 4px 9px);
@@ -185,12 +240,14 @@ html {
   animation: rise 1s cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay, 0ms) both;
 }
 
+/* Short, quick reveals; staggers are compressed and capped so copy never waits. */
 .js [data-reveal] {
+  --reveal-delay: min(calc(var(--delay, 0ms) * 0.4), 160ms);
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(14px);
   transition:
-    opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay, 0ms),
-    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay, 0ms);
+    opacity 0.45s ease-out var(--reveal-delay),
+    transform 0.45s ease-out var(--reveal-delay);
 }
 .js [data-reveal][data-visible] {
   opacity: 1;
@@ -240,8 +297,13 @@ html {
   .scene-layer,
   .status-dot,
   .blink,
-  .flow {
+  .flow,
+  .menu-in:not([hidden]) {
     animation: none;
+  }
+  .rail-tick,
+  .rail-label {
+    transition: none;
   }
   .js [data-reveal] {
     opacity: 1;
