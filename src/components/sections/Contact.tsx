@@ -17,7 +17,7 @@ export function Contact() {
         </a>
         {profile.email && (
           <a href={`mailto:${profile.email}`} className="btn btn-ghost">
-            Email
+            {profile.email}
           </a>
         )}
       </div>

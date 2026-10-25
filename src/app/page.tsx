@@ -15,6 +15,7 @@ const personJsonLd = {
   name: profile.name,
   jobTitle: profile.title,
   description: profile.description,
+  email: profile.email || undefined,
   worksFor: { "@type": "Organization", name: profile.companyLegalName, url: profile.companyUrl },
   alumniOf: { "@type": "CollegeOrUniversity", name: profile.school },
   address: { "@type": "PostalAddress", addressRegion: profile.region, addressCountry: profile.countryCode },

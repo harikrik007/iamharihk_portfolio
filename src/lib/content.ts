@@ -16,8 +16,8 @@ export const profile = {
   // Bottom line of the social share image.
   tagline: "AgentBaba · Agent Marketplace · Avatar Studio · ex-Watasale",
   linkedin: "https://www.linkedin.com/in/harikrishnan-m-91a059122/",
-  // Add a public contact address to show an email button in the contact section.
-  email: "",
+  // Leave empty to hide the email button in the contact section.
+  email: "hari@immilearn.com",
   status: "Building Avatar Studio",
   intro:
     "I build the systems AI agents run on: the agentic runtime and harness behind AgentBaba, a database that AI can operate, and the engine that turns an agent into a talking virtual human.",
