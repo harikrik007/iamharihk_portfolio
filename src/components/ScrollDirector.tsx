@@ -108,8 +108,13 @@ export function ScrollDirector() {
     const onPointer = (event: PointerEvent) => {
       sceneState.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
       sceneState.pointer.y = (event.clientY / window.innerHeight) * 2 - 1;
+      sceneState.pointerActive = event.pointerType !== "touch";
+    };
+    const onLeave = (event: PointerEvent) => {
+      if (!event.relatedTarget) sceneState.pointerActive = false;
     };
     window.addEventListener("pointermove", onPointer, { passive: true });
+    document.addEventListener("pointerout", onLeave);
 
     const reveal = new IntersectionObserver(
       (entries) => {
@@ -129,6 +134,7 @@ export function ScrollDirector() {
       resizeObserver.disconnect();
       reveal.disconnect();
       window.removeEventListener("pointermove", onPointer);
+      document.removeEventListener("pointerout", onLeave);
     };
   }, []);
 

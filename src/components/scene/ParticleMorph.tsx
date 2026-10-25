@@ -13,6 +13,12 @@ const LAST_PAIR = SCENES.length - 2;
 const FEATHER_PX = 56;
 const { damp, lerp, clamp } = THREE.MathUtils;
 
+// The particle colours come from the same CSS tokens as the rest of the page.
+function themeColor(name: string, fallback: string) {
+  const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return new THREE.Color(value || fallback);
+}
+
 export function ParticleMorph({ count }: { count: number }) {
   const shapes = useMemo(() => SCENES.map((scene) => buildShape(scene.id, count)), [count]);
 
@@ -40,12 +46,15 @@ export function ParticleMorph({ count }: { count: number }) {
           uPixelRatio: { value: 1 },
           uMotion: { value: 1 },
           uOpacity: { value: 1 },
-          uColorA: { value: new THREE.Color("#ff7a3d") },
-          uColorB: { value: new THREE.Color("#3ddcff") },
+          uColorA: { value: themeColor("--color-ember", "#ff7a3d") },
+          uColorB: { value: themeColor("--color-cyan", "#3ddcff") },
           uTextA: { value: new THREE.Vector4(9, 9, 9, 9) },
           uTextB: { value: new THREE.Vector4(9, 9, 9, 9) },
           uFeather: { value: new THREE.Vector2(0.1, 0.1) },
           uTextMin: { value: 0.12 },
+          uMouse: { value: new THREE.Vector2(0, 0) },
+          uRepel: { value: 0 },
+          uAspect: { value: 1 },
         },
         transparent: true,
         depthWrite: false,
@@ -56,7 +65,8 @@ export function ParticleMorph({ count }: { count: number }) {
 
   const group = useRef<THREE.Group>(null);
   const points = useRef<THREE.Points<THREE.BufferGeometry, THREE.ShaderMaterial>>(null);
-  const live = useRef({ morph: 0, pair: 0 });
+  // shown and fade drive the reduced-motion crossfade between whole scenes.
+  const live = useRef({ morph: 0, pair: 0, shown: 0, fade: 1 });
   const viewport = useThree((state) => state.viewport);
 
   useFrame((state, delta) => {
@@ -65,8 +75,22 @@ export function ParticleMorph({ count }: { count: number }) {
     if (!g || !p) return;
     const dt = Math.min(delta, 0.1);
     const l = live.current;
+    const reduced = sceneState.reducedMotion;
 
-    l.morph = damp(l.morph, sceneState.morph, 3.2, dt);
+    if (reduced) {
+      // No tweening: fade out, swap to the nearest scene, fade back in.
+      const target = Math.round(sceneState.morph);
+      if (target !== l.shown) {
+        l.fade = Math.max(0, l.fade - dt / 0.2);
+        if (l.fade === 0) l.shown = target;
+      } else {
+        l.fade = Math.min(1, l.fade + dt / 0.25);
+      }
+      l.morph = l.shown;
+    } else {
+      l.morph = damp(l.morph, sceneState.morph, 3.2, dt);
+      l.fade = 1;
+    }
     const pair = Math.min(Math.floor(l.morph), LAST_PAIR);
     const mix = clamp(l.morph - pair, 0, 1);
 
@@ -84,15 +108,16 @@ export function ParticleMorph({ count }: { count: number }) {
     const to = SCENES[pair + 1];
     const ease = mix * mix * (3 - 2 * mix);
     const narrow = viewport.aspect < 1;
-    const motion = sceneState.reducedMotion ? 0 : 1;
+    const motion = reduced ? 0 : 1;
     const t = state.clock.elapsedTime;
+    const { pointer } = sceneState;
 
     const u = p.material.uniforms;
     u.uMix.value = mix;
     u.uTime.value = t * motion;
     u.uMotion.value = motion;
     u.uPixelRatio.value = state.gl.getPixelRatio();
-    u.uOpacity.value = lerp(from.opacity, to.opacity, ease) * (narrow ? 0.7 : 1);
+    u.uOpacity.value = lerp(from.opacity, to.opacity, ease) * (narrow ? 0.7 : 1) * l.fade;
 
     const r = sceneState.textRects;
     u.uTextA.value.set(r[0], r[1], r[2], r[3]);
@@ -101,14 +126,22 @@ export function ParticleMorph({ count }: { count: number }) {
     // Phones have no empty side for the shape, so it stays faintly visible behind the text.
     u.uTextMin.value = narrow ? 0.3 : 0.12;
 
-    const side = narrow ? 0 : lerp(from.side, to.side, ease);
-    g.position.x = damp(g.position.x, side * viewport.width * 0.24, 3, dt);
-    const scale = narrow ? 0.72 : 1;
-    g.scale.setScalar(damp(g.scale.x, scale, 3, dt));
+    u.uAspect.value = state.size.width / state.size.height;
+    u.uMouse.value.set(damp(u.uMouse.value.x, pointer.x, 8, dt), damp(u.uMouse.value.y, -pointer.y, 8, dt));
+    u.uRepel.value = damp(u.uRepel.value, sceneState.pointerActive && !reduced ? 1 : 0, 4, dt);
 
-    const { pointer } = sceneState;
-    g.rotation.y = damp(g.rotation.y, Math.sin(t * 0.25) * 0.35 * motion + pointer.x * 0.35, 2.5, dt);
-    g.rotation.x = damp(g.rotation.x, Math.cos(t * 0.2) * 0.08 * motion - pointer.y * 0.2, 2.5, dt);
+    const sideX = (narrow ? 0 : lerp(from.side, to.side, ease)) * viewport.width * 0.24;
+    const scale = narrow ? 0.72 : 1;
+    if (reduced) {
+      g.position.x = sideX;
+      g.scale.setScalar(scale);
+      g.rotation.set(0, 0, 0);
+      return;
+    }
+    g.position.x = damp(g.position.x, sideX, 3, dt);
+    g.scale.setScalar(damp(g.scale.x, scale, 3, dt));
+    g.rotation.y = damp(g.rotation.y, Math.sin(t * 0.25) * 0.35 + pointer.x * 0.35, 2.5, dt);
+    g.rotation.x = damp(g.rotation.x, Math.cos(t * 0.2) * 0.08 - pointer.y * 0.2, 2.5, dt);
   });
 
   return (

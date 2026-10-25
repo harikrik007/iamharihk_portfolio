@@ -6,11 +6,20 @@ import { PerformanceMonitor } from "@react-three/drei";
 import { Dust } from "./Dust";
 import { ParticleMorph } from "./ParticleMorph";
 
+// Particle count by device tier. More than this mostly washes out under
+// additive blending without making the shapes any clearer.
+function particleCount() {
+  if (window.matchMedia("(max-width: 767px)").matches) return 5000;
+  const nav = navigator as Navigator & { deviceMemory?: number };
+  const lowEnd = (navigator.hardwareConcurrency ?? 8) <= 4 || (nav.deviceMemory ?? 8) <= 4;
+  return lowEnd ? 7000 : 10000;
+}
+
 export default function SceneCanvas() {
   // Client-only component (loaded with ssr: false), so window is available here.
-  const [maxDpr] = useState(() => Math.min(2, window.devicePixelRatio || 1));
-  const [dpr, setDpr] = useState(() => Math.min(1.5, maxDpr));
-  const [count] = useState(() => (window.matchMedia("(max-width: 767px)").matches ? 5000 : 10000));
+  const [maxDpr] = useState(() => Math.min(1.5, window.devicePixelRatio || 1));
+  const [dpr, setDpr] = useState(maxDpr);
+  const [count] = useState(particleCount);
 
   return (
     <Canvas
