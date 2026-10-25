@@ -46,7 +46,7 @@ export const about = {
   heading: "Engineer, researcher, one-time founder.",
   paragraphs: [
     "I started in 2015 writing Android apps in Java. A few years later I was writing the embedded software for Watasale, India's first autonomous store, and training the AI models that let it check people out without a cashier.",
-    "In 2019 I co-founded CrateHunt Esports: online PUBG tournaments with cash prizes. We built the MVP, learned that teenagers love to compete but rarely have money to spend, and shut it down. It taught me more about product than any job had. In 2022 I worked at a stealth startup that collects parking and toll payments by reading number plates, on a stack that is now patent-pending in the US.",
+    "In 2019 I co-founded CrateHunt Esports: online PUBG tournaments with cash prizes. We built the MVP, learned that teenagers love to compete but rarely have money to spend, and shut it down. It taught me more about product than any job had. In 2022 I worked at a stealth startup that collects parking, toll and fuel payments by reading number plates, on a stack that is now patent-pending in the US.",
     "Since 2024 I've been at Immilearn building AgentBaba: the runtime its agents run on, the harness that lets non-developers build their own, a database that AI can operate, and the engine behind Avatar Studio's talking virtual humans.",
   ],
   facts: [
@@ -106,8 +106,8 @@ export const journey: Era[] = [
     scene: "plate",
     years: "2022",
     title: "Stealth startup",
-    subtitle: "Parking and toll payments, by number plate",
-    body: "A camera reads a vehicle's number plate, the system confirms which vehicle it really is, and the parking fee or toll is collected from its owner.",
+    subtitle: "Parking, toll and fuel payments, by number plate",
+    body: "A camera reads a vehicle's number plate, the system confirms which vehicle it really is, and the owner is charged automatically. It works for parking fees and tolls, and at petrol pumps too: fill up and drive off, and the bill is debited without a stop at the counter.",
     points: [
       "Vehicle plate identification from camera feeds.",
       "Vehicle identity cross-matching, so the right vehicle is charged.",
