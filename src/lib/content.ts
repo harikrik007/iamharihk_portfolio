@@ -86,7 +86,6 @@ export const journey: Era[] = [
       "Main developer of the embedded software that powered the store.",
       "Trained the AI models that spot each product and the shopper who picks it up or puts it back, so the right person is billed: cashierless checkout in the spirit of Amazon Go.",
       "Built the training and inference pipeline for those models.",
-      "Main software engineer on 360, the platform behind it.",
     ],
     note: "Watasale was later acquired by Amazon. I had moved on in 2019, before the deal.",
   },
