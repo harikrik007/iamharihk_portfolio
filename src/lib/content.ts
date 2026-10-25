@@ -137,6 +137,15 @@ export type Project = {
   built: string[];
   facts: string[];
   status?: string;
+  // Optional extras, each hidden until filled in (see TODO_CONTENT.md).
+  // A real number, shown in place of the status badge, e.g. "12k minutes talked".
+  metric?: string;
+  // One result in a sentence.
+  impact?: string;
+  // A screenshot in public/work/<slug>/, optionally with a short muted loop.
+  media?: { src: string; alt: string; width: number; height: number; webm?: string; mp4?: string };
+  // Draws the AgentBaba runtime diagram.
+  diagram?: boolean;
 };
 
 export const projects: Project[] = [
@@ -154,6 +163,7 @@ export const projects: Project[] = [
       "Frontend and backend across the platform.",
     ],
     facts: ["AI workers", "Internal & external app builders", "Email, calls & SMS", "AI Drive", "Studio"],
+    diagram: true,
   },
   {
     scene: "hub",

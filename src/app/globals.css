@@ -131,6 +131,30 @@ html {
   }
 }
 
+/* Data flowing along a diagram connector: down on phones, across on wider screens. */
+.flow {
+  background: repeating-linear-gradient(180deg, var(--color-cyan) 0 4px, transparent 4px 9px);
+  background-size: 1px 18px;
+  animation: flow-down 0.9s linear infinite;
+}
+@media (min-width: 40rem) {
+  .flow {
+    background: repeating-linear-gradient(90deg, var(--color-cyan) 0 4px, transparent 4px 9px);
+    background-size: 18px 1px;
+    animation-name: flow-across;
+  }
+}
+@keyframes flow-down {
+  to {
+    background-position: 0 18px;
+  }
+}
+@keyframes flow-across {
+  to {
+    background-position: 18px 0;
+  }
+}
+
 /* Scroll progress, set by ScrollDirector. */
 .progress-bar {
   transform: scaleX(var(--progress, 0));
@@ -215,7 +239,8 @@ html {
   .hero-in,
   .scene-layer,
   .status-dot,
-  .blink {
+  .blink,
+  .flow {
     animation: none;
   }
   .js [data-reveal] {
