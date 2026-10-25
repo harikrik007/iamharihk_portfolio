@@ -35,7 +35,7 @@ export function Contact() {
         </ul>
       </div>
 
-      <footer className="mt-20 font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
+      <footer className="mt-20 font-mono text-xs tracking-[0.12em] text-muted uppercase">
         © 2026 {profile.name} · Built with Next.js & React Three Fiber
       </footer>
     </Stage>

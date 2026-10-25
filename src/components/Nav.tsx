@@ -23,13 +23,13 @@ export function Nav() {
           <ul className="hidden items-center gap-7 md:flex">
             {links.map((link) => (
               <li key={link.href}>
-                <a href={link.href} className="font-mono text-[11px] tracking-[0.2em] text-muted uppercase transition-colors hover:text-paper">
+                <a href={link.href} className="font-mono text-xs tracking-[0.15em] text-muted uppercase transition-colors hover:text-paper">
                   {link.label}
                 </a>
               </li>
             ))}
           </ul>
-          <span className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-[10px] tracking-[0.16em] text-paper/80 uppercase backdrop-blur-md">
+          <span className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-xs tracking-[0.12em] text-paper/85 uppercase backdrop-blur-md">
             <span className="status-dot size-1.5 rounded-full bg-emerald-400" />
             {profile.status}
           </span>
@@ -38,7 +38,7 @@ export function Nav() {
       <p
         id="scene-hud"
         aria-hidden
-        className="fixed right-6 bottom-6 z-40 hidden font-mono text-[11px] tracking-[0.2em] text-muted uppercase md:block"
+        className="fixed right-6 bottom-6 z-40 hidden font-mono text-xs tracking-[0.15em] text-muted uppercase md:block"
       >
         01 / 12 · Boot
       </p>

@@ -3,7 +3,8 @@
 @theme {
   --color-ink: #06070a;
   --color-paper: #ececf1;
-  --color-muted: #8b8f9c;
+  /* 7.6:1 on ink, so secondary text stays readable even with particles behind it. */
+  --color-muted: #9ea3b0;
   --color-ember: #ff7a3d;
   --color-cyan: #3ddcff;
 }
@@ -26,15 +27,14 @@ html {
 
 :focus-visible {
   outline: 2px solid var(--color-cyan);
-  outline-offset: 3px;
-  border-radius: 6px;
+  outline-offset: 2px;
 }
 
 @layer components {
   .label {
     font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.2em;
+    font-size: 12px;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--color-muted);
   }

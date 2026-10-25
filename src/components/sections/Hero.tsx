@@ -22,7 +22,7 @@ export function Hero() {
       </p>
 
       <div className="hero-in mt-8 max-w-md rounded-xl border border-white/10 bg-ink/50 p-4 font-mono text-[12px] backdrop-blur-md" style={delay(560)}>
-        <div className="mb-3 flex items-center justify-between text-[10px] tracking-[0.2em] text-muted uppercase">
+        <div className="mb-3 flex items-center justify-between text-xs tracking-[0.16em] text-muted uppercase">
           <span>career.log</span>
           <span className="flex items-center gap-1.5">
             <span className="status-dot size-1.5 rounded-full bg-emerald-400" /> live
