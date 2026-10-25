@@ -73,8 +73,8 @@ export const journey: Era[] = [
     scene: "phone",
     years: "2015 – 2018",
     title: "Mobile first",
-    subtitle: "iROID Technologies · Freelance · Better Tomorrow Online",
-    body: "I learned to ship on phones: native Android in Java at iROID Technologies, apps for my own clients as a freelancer, then mobile applications at Better Tomorrow Online. Today I write mobile in Flutter.",
+    subtitle: "iROID Technologies · Better Tomorrow Online",
+    body: "I learned to ship on phones: native Android in Java at iROID Technologies, then mobile applications at Better Tomorrow Online. Today I write mobile in Flutter.",
   },
   {
     scene: "store",
