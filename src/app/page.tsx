@@ -20,7 +20,7 @@ const personJsonLd = {
   worksFor: { "@type": "Organization", name: profile.companyLegalName, url: profile.companyUrl },
   alumniOf: { "@type": "CollegeOrUniversity", name: profile.school },
   address: { "@type": "PostalAddress", addressRegion: profile.region, addressCountry: profile.countryCode },
-  sameAs: [profile.linkedin],
+  sameAs: [profile.linkedin, profile.github].filter(Boolean),
   knowsAbout: skills.flatMap((group) => group.items),
 };
 
@@ -31,11 +31,17 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }}
       />
+      <a
+        href="#main"
+        className="sr-only z-[60] rounded-full bg-paper px-4 py-2 text-sm font-medium text-ink focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+      >
+        Skip to content
+      </a>
       <SceneLoader />
       <div aria-hidden className="vignette pointer-events-none fixed inset-0 z-[1]" />
       <ScrollDirector />
       <Nav />
-      <main className="relative z-10">
+      <main id="main" tabIndex={-1} className="relative z-10 outline-none">
         <Hero />
         <About />
         <Journey />

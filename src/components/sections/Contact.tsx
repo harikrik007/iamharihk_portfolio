@@ -1,4 +1,5 @@
 import { contact, liveProducts, profile } from "@/lib/content";
+import { ExternalLink } from "../ExternalLink";
 import { delay, SectionLabel, Stage } from "../Stage";
 
 export function Contact() {
@@ -12,9 +13,9 @@ export function Contact() {
         {contact.body}
       </p>
       <div data-reveal className="mt-9 flex flex-wrap justify-center gap-3" style={delay(240)}>
-        <a href={profile.linkedin} target="_blank" rel="noreferrer" className="btn btn-primary">
-          Message me on LinkedIn ↗
-        </a>
+        <ExternalLink href={profile.linkedin} className="btn btn-primary">
+          Message me on LinkedIn
+        </ExternalLink>
         {profile.email && (
           <a href={`mailto:${profile.email}`} className="btn btn-ghost">
             {profile.email}
@@ -27,9 +28,9 @@ export function Contact() {
         <ul className="mt-4 flex flex-wrap justify-center gap-2">
           {liveProducts.map((product) => (
             <li key={product.url}>
-              <a href={product.url} target="_blank" rel="noreferrer" className="chip chip-link">
-                {product.name} ↗
-              </a>
+              <ExternalLink href={product.url} className="chip chip-link">
+                {product.name}
+              </ExternalLink>
             </li>
           ))}
         </ul>
