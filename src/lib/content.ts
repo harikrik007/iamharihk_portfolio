@@ -23,6 +23,13 @@ export const profile = {
   cv: "/cv/Harikrishnan_M_CV.pdf", // generated from cv/cv.html
   github: "",
   calendar: "", // a Cal.com or Google booking link
+  // Avatar Studio embed (https://avatar.agentbaba.ai). The key is a publishable one: it is
+  // visible in the page source of any site that uses it, and only works on the websites
+  // allowed in your Avatar Studio dashboard. Leave src empty to turn the avatar off.
+  avatarEmbed: {
+    src: "https://avatar.agentbaba.ai/widget.js",
+    key: "pk_3d859ea554aa49f69b78be158f43915a",
+  },
   status: "Building Avatar Studio",
   intro:
     "I build the systems AI agents run on: the agentic runtime and harness behind AgentBaba, a database that AI can operate, and the engine that turns an agent into a talking virtual human.",

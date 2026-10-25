@@ -1,3 +1,4 @@
+import { AvatarWidget } from "@/components/AvatarWidget";
 import { Nav } from "@/components/Nav";
 import { ScrollDirector } from "@/components/ScrollDirector";
 import { SceneLoader } from "@/components/scene/SceneLoader";
@@ -37,6 +38,7 @@ export default function Home() {
       >
         Skip to content
       </a>
+      <AvatarWidget />
       <SceneLoader />
       <div aria-hidden className="vignette pointer-events-none fixed inset-0 z-[1]" />
       <ScrollDirector />

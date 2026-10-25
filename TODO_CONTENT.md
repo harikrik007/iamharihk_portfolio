@@ -8,14 +8,9 @@ Everything below is already wired up. Each item appears on the site as soon as y
 - **CV:** `public/cv/Harikrishnan_M_CV.pdf`, built from `cv/cv.html` (see the comment at the top of that file to regenerate it). It shows as "Download CV" in the hero and contact sections.
 - **Dates:** every journey chapter and the CV use the exact months from LinkedIn.
 
-## 1. Avatar Studio live demo ("Talk to my avatar")
+## 1. Avatar Studio widget
 
-Needs two things from your Avatar Studio dashboard:
-
-1. The embed snippet for a demo agent.
-2. `www.iamharihk.com` added to that agent's allowed websites.
-
-Send both and the button can be wired to load the embed only when clicked, never on page load.
+The embed is on the site (`profile.avatarEmbed` in content.ts) and loads in browser idle time. For it to appear, `www.iamharihk.com` must be in the allowed websites for that key in your Avatar Studio dashboard. Add `iamharihk-portfolio.vercel.app` too if you want it on the Vercel address, and `localhost` for local development.
 
 ## 2. Numbers
 
@@ -26,7 +21,6 @@ Send both and the button can be wired to load the embed only when clicked, never
 
 | Field | What to put | What appears |
 | --- | --- | --- |
-| `github` | `https://github.com/harikrik007` | A GitHub link in the contact section and in the search-engine profile |
 | `calendar` | A Cal.com or Google booking link | "Book a call" in the contact section |
 
 ## 4. Optional extras
