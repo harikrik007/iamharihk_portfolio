@@ -5,6 +5,8 @@ export const profile = {
   name: "Harikrishnan M",
   initials: "HM",
   handle: "harikrishnan.m",
+  // The live address. Share previews and search engines use it.
+  siteUrl: "https://www.iamharihk.com",
   title: "Senior Software Engineer / AI Researcher",
   company: "Immilearn",
   companyLegalName: "Immilearn India Pvt Ltd",

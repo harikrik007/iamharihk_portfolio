@@ -13,6 +13,7 @@ const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: profile.name,
+  url: profile.siteUrl,
   jobTitle: profile.title,
   description: profile.description,
   email: profile.email || undefined,

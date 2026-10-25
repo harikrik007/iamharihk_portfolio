@@ -17,13 +17,15 @@ const jetbrains = JetBrains_Mono({
 const title = `${profile.name} · ${profile.title}`;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? profile.siteUrl),
   title,
   description: profile.description,
+  alternates: { canonical: "/" },
   openGraph: {
     title,
     description: profile.description,
     type: "profile",
+    url: "/",
   },
   twitter: {
     card: "summary_large_image",

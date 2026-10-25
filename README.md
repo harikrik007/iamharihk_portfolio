@@ -1,6 +1,6 @@
 # 3D particle portfolio
 
-The personal site of Harikrishnan M, built with Next.js 16 (App Router), React Three Fiber and Lenis. Clone it and make it your own.
+The personal site of Harikrishnan M, live at [iamharihk.com](https://www.iamharihk.com), built with Next.js 16 (App Router), React Three Fiber and Lenis. Clone it and make it your own.
 
 A single field of particles (10k on desktop, 5k on phones) changes shape for each chapter as you scroll: agent core → helix → phone → store → crosshair → number plate → knot → database → hub → woman's face → stack lattice → galaxy. All the text is ordinary HTML, so search engines and screen readers read it normally. If a browser can't run WebGL, the page still works without the 3D layer.
 
@@ -42,7 +42,7 @@ To add a stage, add an entry to `SCENES`, add a builder with the same id in `sha
 
 ## Deploy
 
-Import the repo into [Vercel](https://vercel.com/new), or any host that runs Next.js. Set `NEXT_PUBLIC_SITE_URL` to your final domain (for example `https://yourname.dev`) so links in social share previews point to the right address.
+Import the repo into [Vercel](https://vercel.com/new), or any host that runs Next.js. Put your final address in `siteUrl` in `src/lib/content.ts` (for example `https://yourname.dev`) so social share previews and search engines point to the right place. You can also override it with the `NEXT_PUBLIC_SITE_URL` environment variable.
 
 ## License
 
