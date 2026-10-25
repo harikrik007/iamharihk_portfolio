@@ -12,11 +12,12 @@ export function Nav() {
             trap the phone menu's position: fixed inside the header box. */}
         <div aria-hidden className="absolute inset-0 -z-10 bg-ink/70 backdrop-blur-md" />
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4 md:px-10 md:py-5">
-          <a href="#top" className="group flex min-h-11 items-center gap-3" aria-label={`${profile.name}, back to top`}>
+          <a href="#top" className="group flex min-h-11 items-center gap-3">
             <span className="grid size-9 place-items-center rounded-lg border border-white/15 bg-white/5 font-mono text-xs font-semibold tracking-wider transition-colors group-hover:border-ember/60">
               {profile.initials}
             </span>
             <span className="hidden font-mono text-xs tracking-[0.18em] text-muted uppercase sm:inline">{profile.handle}</span>
+            <span className="sr-only">, back to top</span>
           </a>
           <nav aria-label="Main" className="hidden md:block">
             <ul className="flex items-center gap-7">

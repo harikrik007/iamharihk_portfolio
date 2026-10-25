@@ -20,8 +20,8 @@ export function CopyEmail({ email }: { email: string }) {
 
   return (
     <>
-      <button type="button" onClick={copy} className="btn btn-ghost" aria-label={`Copy ${email}`}>
-        Copy email
+      <button type="button" onClick={copy} className="btn btn-ghost">
+        Copy email<span className="sr-only"> address</span>
       </button>
       <div
         role="status"

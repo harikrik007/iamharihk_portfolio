@@ -10,7 +10,7 @@ export function ChapterRail() {
       <ol className="flex flex-col items-end">
         {SCENES.map((scene, i) => (
           <li key={scene.id}>
-            <a href={`#${scene.anchor}`} data-rail={i} className="rail-link group flex items-center justify-end gap-3 py-1.5 pl-3">
+            <a href={`#${scene.anchor}`} data-rail={i} className="rail-link group flex min-h-6 min-w-6 items-center justify-end pl-3">
               <span className="rail-label font-mono text-xs tracking-[0.12em] whitespace-nowrap text-muted uppercase">
                 {pad(i + 1)} · {scene.label}
               </span>

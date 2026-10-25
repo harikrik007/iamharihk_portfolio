@@ -239,6 +239,16 @@ html {
 .hero-in {
   animation: rise 1s cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay, 0ms) both;
 }
+/* The name and intro only slide: text that starts invisible can't count as the
+   largest paint, which made LCP wait for the fade. */
+.hero-rise {
+  animation: slide-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes slide-up {
+  from {
+    transform: translateY(16px);
+  }
+}
 
 /* Short, quick reveals; staggers are compressed and capped so copy never waits. */
 .js [data-reveal] {
@@ -294,6 +304,7 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
   .hero-in,
+  .hero-rise,
   .scene-layer,
   .status-dot,
   .blink,

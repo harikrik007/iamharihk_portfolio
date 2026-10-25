@@ -9,7 +9,7 @@ export function Hero() {
       <p className="label hero-in" style={delay(100)}>
         <span className="text-ember">01</span> {"//"} system online
       </p>
-      <h1 className="hero-in mt-5 text-[clamp(3rem,7vw,5.75rem)] leading-[0.9] font-semibold tracking-[-0.045em] md:whitespace-nowrap" style={delay(180)}>
+      <h1 className="hero-rise mt-5 text-[clamp(3rem,7vw,5.75rem)] leading-[0.9] font-semibold tracking-[-0.045em] md:whitespace-nowrap">
         {profile.name}
       </h1>
       <p className="hero-in mt-4 text-lg font-medium md:text-2xl" style={delay(260)}>
@@ -19,7 +19,7 @@ export function Hero() {
           {profile.company}
         </ExternalLink>
       </p>
-      <p className="hero-in mt-5 max-w-xl text-base leading-relaxed text-paper/80 md:text-lg" style={delay(340)}>
+      <p className="hero-rise mt-5 max-w-xl text-base leading-relaxed text-paper/80 md:text-lg">
         {profile.intro}
       </p>
 

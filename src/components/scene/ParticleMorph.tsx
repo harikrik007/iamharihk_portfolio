@@ -1,12 +1,12 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { SCENES } from "@/lib/scenes";
 import { sceneState } from "@/lib/sceneState";
 import { fragmentShader, vertexShader } from "./particleShaders";
-import { buildShape, mulberry32 } from "./shapes";
+import { mulberry32, ShapeCache } from "./shapes";
 
 const LAST_PAIR = SCENES.length - 2;
 // Width of the soft edge where particles fade out next to text.
@@ -20,19 +20,38 @@ function themeColor(name: string, fallback: string) {
 }
 
 export function ParticleMorph({ count }: { count: number }) {
-  const shapes = useMemo(() => SCENES.map((scene) => buildShape(scene.id, count)), [count]);
+  const shapes = useMemo(() => new ShapeCache(SCENES.map((scene) => scene.id), count), [count]);
 
   const geometry = useMemo(() => {
     const rng = mulberry32(42);
     const seeds = new Float32Array(count);
     for (let i = 0; i < count; i++) seeds[i] = rng();
     const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(shapes[0], 3));
-    g.setAttribute("aPosA", new THREE.BufferAttribute(shapes[0].slice(), 3));
-    g.setAttribute("aPosB", new THREE.BufferAttribute(shapes[1].slice(), 3));
+    g.setAttribute("position", new THREE.BufferAttribute(shapes.get(0), 3));
+    g.setAttribute("aPosA", new THREE.BufferAttribute(shapes.get(0).slice(), 3));
+    g.setAttribute("aPosB", new THREE.BufferAttribute(shapes.get(1).slice(), 3));
     g.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
     return g;
   }, [shapes, count]);
+
+  // Build the remaining shapes one per idle slot, so start-up isn't one long
+  // blocking task. A shape needed sooner is built on demand in useFrame.
+  useEffect(() => {
+    // Safari has no requestIdleCallback.
+    const hasIdle = typeof window.requestIdleCallback === "function";
+    const idle = (cb: () => void) => (hasIdle ? window.requestIdleCallback(cb, { timeout: 2000 }) : window.setTimeout(cb, 60));
+    const cancel = (id: number) => (hasIdle ? window.cancelIdleCallback(id) : window.clearTimeout(id));
+    let next = 2;
+    let handle = 0;
+    const step = () => {
+      while (next < SCENES.length && shapes.has(next)) next++;
+      if (next >= SCENES.length) return;
+      shapes.get(next++);
+      handle = idle(step);
+    };
+    handle = idle(step);
+    return () => cancel(handle);
+  }, [shapes]);
 
   const material = useMemo(
     () =>
@@ -97,8 +116,8 @@ export function ParticleMorph({ count }: { count: number }) {
     if (pair !== l.pair) {
       const a = p.geometry.getAttribute("aPosA") as THREE.BufferAttribute;
       const b = p.geometry.getAttribute("aPosB") as THREE.BufferAttribute;
-      (a.array as Float32Array).set(shapes[pair]);
-      (b.array as Float32Array).set(shapes[pair + 1]);
+      (a.array as Float32Array).set(shapes.get(pair));
+      (b.array as Float32Array).set(shapes.get(pair + 1));
       a.needsUpdate = true;
       b.needsUpdate = true;
       l.pair = pair;

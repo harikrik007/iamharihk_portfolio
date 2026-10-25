@@ -836,3 +836,21 @@ const BUILDERS: Record<SceneId, (count: number) => Float32Array> = {
 export function buildShape(id: SceneId, count: number) {
   return BUILDERS[id](count);
 }
+
+/** Builds each scene's shape on first use, so start-up only pays for the shapes on screen. */
+export class ShapeCache {
+  private shapes: (Float32Array | undefined)[] = [];
+
+  constructor(
+    private ids: readonly SceneId[],
+    private count: number,
+  ) {}
+
+  get(index: number) {
+    return (this.shapes[index] ??= buildShape(this.ids[index], this.count));
+  }
+
+  has(index: number) {
+    return this.shapes[index] !== undefined;
+  }
+}
