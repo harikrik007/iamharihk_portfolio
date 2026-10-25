@@ -533,34 +533,171 @@ function hub(count: number) {
   );
 }
 
-// Avatar Studio: a voice ring around a face-like orb.
-function voice(count: number) {
-  const bars = 72;
+// Avatar Studio: a woman's face shaped like a mask, framed by long hair.
+function face(count: number) {
+  const top = 1.55;
+  const chin = -1.75;
+  const mid = (top + chin) / 2;
+  const half = (top - chin) / 2;
+  const eyeX = 0.42;
+  const eyeY = 0.15;
+  const mouthY = -0.88;
+  const mouthW = 0.33;
+  const strands = 16;
+  const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+  const side = (rng: Rng) => (rng() < 0.5 ? -1 : 1);
+
+  // Half-width of the face at height y: an egg that narrows towards the chin.
+  const halfWidth = (y: number) => {
+    const v = (y - mid) / half;
+    if (Math.abs(v) >= 1) return 0;
+    return 1.12 * Math.sqrt(1 - v * v) * (v < 0 ? 1 - 0.3 * v * v : 1 - 0.08 * v * v);
+  };
+
+  // How far the mask comes towards the viewer: a shallow shell with a nose,
+  // eye sockets, lips and chin pressed into it.
+  const depth = (x: number, y: number) => {
+    const ex = x / 1.3;
+    const ey = (y - mid) / 1.85;
+    let z = 0.95 * Math.sqrt(Math.max(0, 1 - ex * ex - ey * ey));
+    const along = clamp01((0.3 - y) / 0.75);
+    const tip = y < -0.45 ? Math.exp(-(((y + 0.45) / 0.07) ** 2)) : 1;
+    z += 0.36 * along ** 1.5 * tip * Math.exp(-((x / (0.08 + 0.08 * along)) ** 2));
+    z -= 0.14 * Math.exp(-(((Math.abs(x) - eyeX) / 0.26) ** 2) - ((y - eyeY) / 0.17) ** 2);
+    z += 0.07 * Math.exp(-((x / 0.32) ** 2) - ((y - mouthY) / 0.14) ** 2);
+    z += 0.05 * Math.exp(-((x / 0.3) ** 2) - ((y + 1.4) / 0.18) ** 2);
+    return z;
+  };
+  const onFace = (x: number, y: number, lift = 0.02): Vec3 => [x, y, depth(x, y) + lift];
+  const inEye = (x: number, y: number) => ((Math.abs(x) - eyeX) / 0.26) ** 2 + ((y - eyeY) / 0.11) ** 2 < 1;
+
+  // Almond eyes, lifted slightly at the outer corners. u runs -1 to 1 across the eye.
+  const lid = (s: number, u: number, upper: boolean): [number, number] => {
+    const open = upper ? 0.11 * (1 - u * u) ** 0.7 : -0.06 * (1 - u * u) ** 0.9;
+    return [s * eyeX + u * 0.25, eyeY + open + 0.035 * u * s];
+  };
+  const brow = (s: number, u: number): [number, number] => [
+    s * (0.2 + 0.58 * u),
+    0.47 + 0.14 * Math.sin(Math.PI * u ** 0.7) - 0.08 * u,
+  ];
+  const mouthLine = (u: number) => mouthY + 0.012 * u * u;
+  const upperLip = (u: number) => mouthY + 0.115 * (1 - u * u) ** 0.6 - 0.04 * Math.exp(-((u / 0.16) ** 2));
+  const lowerLip = (u: number) => mouthY - 0.14 * (1 - u * u) ** 0.75;
+  // Hair hugs the face down to the cheeks, then falls past the jaw.
+  const hairSide = (y: number) => (y > mid ? halfWidth(y) : Math.max(0.78, 1.12 - 0.13 * (mid - y)));
+
   return compose(
     count,
     9,
     [
       [
-        0.62,
-        (rng, i) => {
-          const k = i % bars;
-          const a = (k / bars) * TAU;
-          const level = 0.25 + 0.95 * Math.abs(Math.sin(k * 0.37) * Math.cos(k * 0.11 + 1.3));
-          const r = 1.35 + rng() * level;
-          const w = jitter(rng, 0.025);
-          return [Math.cos(a) * r - Math.sin(a) * w, Math.sin(a) * r + Math.cos(a) * w, jitter(rng, 0.04)];
+        0.36,
+        (rng) => {
+          for (let tries = 0; tries < 40; tries++) {
+            const y = chin + rng() * (top - chin);
+            const x = jitter(rng, 1.12);
+            if (Math.abs(x) < halfWidth(y) && !inEye(x, y)) return onFace(x, y, 0);
+          }
+          return onFace(0, 0.9, 0);
         },
       ],
-      [0.16, (rng) => ring(rng, 1.2, 0.015)],
       [
-        0.22,
+        0.09,
         (rng) => {
-          const [x, y, z] = onSphere(rng, 0.95);
-          return [x, y, z * 0.4];
+          const a = rng() * TAU;
+          const y = mid + half * Math.cos(a);
+          return onFace(Math.sign(Math.sin(a)) * halfWidth(y), y, 0);
+        },
+      ],
+      [
+        0.05,
+        (rng) => {
+          const [x, y] = lid(side(rng), jitter(rng, 1), rng() < 0.6);
+          return onFace(x + jitter(rng, 0.005), y + jitter(rng, 0.005));
+        },
+      ],
+      [
+        0.015,
+        (rng) => {
+          const s = side(rng);
+          const k = Math.floor(rng() * 6);
+          const [x, y] = lid(s, s * (0.3 + k * 0.14), true);
+          const t = rng() * (0.06 + k * 0.01);
+          return onFace(x + s * 0.48 * t, y + 0.88 * t, 0.04);
+        },
+      ],
+      [
+        0.03,
+        (rng) => {
+          const a = rng() * TAU;
+          const r = 0.07 * Math.sqrt(rng());
+          return onFace(side(rng) * eyeX + Math.cos(a) * r, eyeY + 0.01 + Math.sin(a) * r, -0.02);
+        },
+      ],
+      [
+        0.035,
+        (rng) => {
+          const u = rng();
+          const [x, y] = brow(side(rng), u);
+          return onFace(x + jitter(rng, 0.008), y + jitter(rng, 0.016 * (1 - 0.7 * u)));
+        },
+      ],
+      [
+        0.05,
+        (rng) => {
+          const s = side(rng);
+          const pick = rng();
+          if (pick < 0.45) {
+            const a = (-0.55 + rng() * 0.95) * Math.PI;
+            return onFace(s * (0.12 + Math.cos(a) * 0.07), -0.44 + Math.sin(a) * 0.07, 0.03);
+          }
+          if (pick < 0.7) {
+            const a = (1.15 + rng() * 0.7) * Math.PI;
+            return onFace(Math.cos(a) * 0.06, -0.45 + Math.sin(a) * 0.06, 0.03);
+          }
+          const y = 0.2 - rng() * 0.56;
+          return onFace(s * (0.05 + 0.07 * clamp01((0.3 - y) / 0.75)), y, 0.03);
+        },
+      ],
+      [
+        0.045,
+        (rng) => {
+          const u = jitter(rng, 1);
+          const pick = rng();
+          const y = pick < 0.4 ? upperLip(u) : pick < 0.75 ? lowerLip(u) : mouthLine(u);
+          return onFace(u * mouthW, y);
+        },
+      ],
+      [
+        0.04,
+        (rng) => {
+          const u = jitter(rng, 1);
+          const edge = rng() < 0.5 ? upperLip(u) : lowerLip(u);
+          const y = mouthLine(u) + (edge - mouthLine(u)) * rng();
+          return onFace(u * mouthW, y, 0.03);
+        },
+      ],
+      [
+        0.2,
+        (rng) => {
+          const s = side(rng);
+          const k = Math.floor(rng() * strands);
+          const layer = k / (strands - 1);
+          const startY = top + 0.14 - 0.55 * layer * layer;
+          const endY = -2.3 - 0.25 * ((k * 0.618) % 1);
+          // Fewer points towards the ends, so each strand tapers off.
+          const t = rng() ** 1.4;
+          const y = startY + (endY - startY) * t;
+          const flow = 0.07 * Math.sin(t * 5 + k * 0.7) + (0.12 + 0.25 * layer) * t * t;
+          const x = s * (hairSide(y) + 0.07 + 0.42 * layer + flow);
+          return [x + jitter(rng, 0.015), y + jitter(rng, 0.015), 0.3 - 0.45 * layer + jitter(rng, 0.03)];
         },
       ],
     ],
-    (p) => rotate(p, 0.05, 0.2),
+    (p) => {
+      const [x, y, z] = rotate([p[0], p[1] + 0.35, p[2]], 0.04, 0.42);
+      return [x * 0.8, y * 0.8, z * 0.8];
+    },
   );
 }
 
@@ -634,7 +771,7 @@ const BUILDERS: Record<SceneId, (count: number) => Float32Array> = {
   knot,
   database,
   hub,
-  voice,
+  face,
   lattice,
   galaxy,
 };

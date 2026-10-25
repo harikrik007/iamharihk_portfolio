@@ -2,7 +2,7 @@
 
 The personal site of Harikrishnan M, built with Next.js 16 (App Router), React Three Fiber and Lenis. Clone it and make it your own.
 
-A single field of particles (10k on desktop, 5k on phones) changes shape for each chapter as you scroll: agent core → helix → phone → store → crosshair → number plate → knot → database → hub → voice ring → stack lattice → galaxy. All the text is ordinary HTML, so search engines and screen readers read it normally. If a browser can't run WebGL, the page still works without the 3D layer.
+A single field of particles (10k on desktop, 5k on phones) changes shape for each chapter as you scroll: agent core → helix → phone → store → crosshair → number plate → knot → database → hub → woman's face → stack lattice → galaxy. All the text is ordinary HTML, so search engines and screen readers read it normally. If a browser can't run WebGL, the page still works without the 3D layer.
 
 **Stack:** Next.js 16 · React 19 · TypeScript · Tailwind CSS 4 · three.js · @react-three/fiber · @react-three/drei · Lenis
 

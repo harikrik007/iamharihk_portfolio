@@ -119,7 +119,7 @@ export const journey: Era[] = [
 ];
 
 export type Project = {
-  scene: "database" | "hub" | "voice";
+  scene: "database" | "hub" | "face";
   name: string;
   url: string;
   kicker: string;
@@ -161,7 +161,7 @@ export const projects: Project[] = [
     facts: ["27 ready-made workers", "40+ connectors", "WhatsApp, calls & email", "Worker teams"],
   },
   {
-    scene: "voice",
+    scene: "face",
     name: "Avatar Studio",
     url: "https://avatar.agentbaba.ai",
     kicker: "Talking virtual humans for websites",
