@@ -5,7 +5,7 @@ export function Journey() {
   return (
     <>
       {journey.map((era, i) => (
-        <Stage key={era.title} scene={era.scene} id={i === 0 ? "journey" : undefined}>
+        <Stage key={era.title} scene={era.scene}>
           {i === 0 && <SectionLabel index="03">Journey</SectionLabel>}
           <p data-reveal className="font-mono text-sm tracking-[0.14em] text-ember" style={delay(60)}>
             {era.years}

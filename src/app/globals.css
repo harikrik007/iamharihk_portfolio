@@ -78,6 +78,16 @@ html {
   .btn-ghost:hover {
     border-color: color-mix(in oklab, var(--color-ember) 70%, transparent);
   }
+  .btn-link {
+    color: rgb(236 236 241 / 0.8);
+    text-decoration: underline;
+    text-decoration-color: rgb(236 236 241 / 0.3);
+    text-underline-offset: 4px;
+  }
+  .btn-link:hover {
+    color: #fff;
+    text-decoration-color: var(--color-cyan);
+  }
 
   .chip {
     display: inline-block;

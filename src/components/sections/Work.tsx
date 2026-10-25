@@ -5,7 +5,7 @@ export function Work() {
   return (
     <>
       {projects.map((project, i) => (
-        <Stage key={project.name} scene={project.scene} id={i === 0 ? "work" : undefined}>
+        <Stage key={project.name} scene={project.scene}>
           {i === 0 && <SectionLabel index="04">Selected work</SectionLabel>}
           <p data-reveal className="label" style={delay(60)}>
             <span className="text-cyan">{String(i + 1).padStart(2, "0")}</span> · {project.kicker}

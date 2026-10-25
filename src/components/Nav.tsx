@@ -1,4 +1,5 @@
 import { profile } from "@/lib/content";
+import { sceneAnchor } from "@/lib/scenes";
 
 const links = [
   { href: "#about", label: "About" },
@@ -29,10 +30,13 @@ export function Nav() {
               </li>
             ))}
           </ul>
-          <span className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-xs tracking-[0.12em] text-paper/85 uppercase backdrop-blur-md">
+          <a
+            href={sceneAnchor("face")}
+            className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-xs tracking-[0.12em] text-paper/85 uppercase backdrop-blur-md transition-colors hover:border-emerald-400/50 hover:text-paper"
+          >
             <span className="status-dot size-1.5 rounded-full bg-emerald-400" />
             {profile.status}
-          </span>
+          </a>
         </nav>
       </header>
       <p

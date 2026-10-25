@@ -5,23 +5,21 @@ import { SCENES, sceneIndex, type SceneId } from "@/lib/scenes";
 // opposite side from where the shape is drawn.
 export function Stage({
   scene,
-  id,
   wide = false,
   className = "",
   children,
 }: {
   scene: SceneId;
-  id?: string;
   wide?: boolean;
   className?: string;
   children: ReactNode;
 }) {
   const index = sceneIndex(scene);
-  const { side } = SCENES[index];
+  const { side, anchor } = SCENES[index];
   const align = side === 1 ? "md:mr-auto" : side === -1 ? "md:ml-auto" : "mx-auto text-center";
 
   return (
-    <section id={id} data-scene={index} className={`flex min-h-svh scroll-mt-0 items-center py-28 md:py-36 ${className}`}>
+    <section id={anchor} data-scene={index} className={`flex min-h-svh scroll-mt-0 items-center py-28 md:py-36 ${className}`}>
       <div className="mx-auto w-full max-w-6xl px-6 md:px-10">
         <div data-text-column className={`${wide ? "max-w-2xl" : "max-w-xl"} ${align}`}>
           {children}

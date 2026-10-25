@@ -18,8 +18,11 @@ export const profile = {
   // Bottom line of the social share image.
   tagline: "AgentBaba · Agent Marketplace · Avatar Studio · ex-Watasale",
   linkedin: "https://www.linkedin.com/in/harikrishnan-m-91a059122/",
-  // Leave empty to hide the email button in the contact section.
+  // Leave any of these empty to hide its button. See TODO_CONTENT.md.
   email: "hari@immilearn.com",
+  cv: "", // e.g. "/cv/Harikrishnan_M_CV.pdf", placed in public/cv/
+  github: "",
+  calendar: "", // a Cal.com or Google booking link
   status: "Building Avatar Studio",
   intro:
     "I build the systems AI agents run on: the agentic runtime and harness behind AgentBaba, a database that AI can operate, and the engine that turns an agent into a talking virtual human.",
@@ -27,13 +30,14 @@ export const profile = {
     "Harikrishnan M is a Senior Software Engineer / AI Researcher at Immilearn, building AgentBaba's agentic runtime, agent harness, AI-operable database and Avatar Studio's avatar engine.",
 };
 
+// Each line links to the chapter it names.
 export const bootLog = [
-  { process: "android.java", when: "2015", state: "ok" },
-  { process: "embedded.watasale", when: "2018", state: "ok" },
-  { process: "founder.cratehunt", when: "2019", state: "ok" },
-  { process: "vision.plates", when: "2022", state: "ok" },
-  { process: "agentic.runtime", when: "2024", state: "ok" },
-  { process: "avatar.engine", when: "now", state: "run" },
+  { process: "android.java", when: "2015", state: "ok", scene: "phone" },
+  { process: "embedded.watasale", when: "2018", state: "ok", scene: "cart" },
+  { process: "founder.cratehunt", when: "2019", state: "ok", scene: "crosshair" },
+  { process: "vision.plates", when: "2022", state: "ok", scene: "plate" },
+  { process: "agentic.runtime", when: "2024", state: "ok", scene: "database" },
+  { process: "avatar.engine", when: "now", state: "run", scene: "face" },
 ] as const;
 
 export const stats = [

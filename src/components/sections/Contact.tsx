@@ -3,7 +3,7 @@ import { delay, SectionLabel, Stage } from "../Stage";
 
 export function Contact() {
   return (
-    <Stage scene="galaxy" id="contact" wide>
+    <Stage scene="galaxy" wide>
       <SectionLabel index="06">Contact</SectionLabel>
       <h2 data-reveal className="text-[clamp(2.8rem,8vw,6rem)] leading-[0.92] font-semibold tracking-[-0.04em]" style={delay(80)}>
         {contact.heading}

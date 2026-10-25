@@ -3,7 +3,7 @@ import { delay, SectionLabel, Stage } from "../Stage";
 
 export function About() {
   return (
-    <Stage scene="helix" id="about">
+    <Stage scene="helix">
       <SectionLabel index="02">About</SectionLabel>
       <h2 data-reveal className="heading-xl" style={delay(80)}>
         {about.heading}
