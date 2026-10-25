@@ -20,7 +20,7 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/harikrishnan-m-91a059122/",
   // Leave any of these empty to hide its button. See TODO_CONTENT.md.
   email: "hari@immilearn.com",
-  cv: "", // e.g. "/cv/Harikrishnan_M_CV.pdf", placed in public/cv/
+  cv: "/cv/Harikrishnan_M_CV.pdf", // generated from cv/cv.html
   github: "",
   calendar: "", // a Cal.com or Google booking link
   status: "Building Avatar Studio",
@@ -50,7 +50,7 @@ export const about = {
   heading: "Engineer, researcher, one-time founder.",
   paragraphs: [
     "I started in 2015 writing Android apps in Java. A few years later I was writing the embedded software for Watasale, India's first autonomous store, and training the AI models that let it check people out without a cashier.",
-    "In 2019 I co-founded CrateHunt Esports: online PUBG tournaments with cash prizes. We built the MVP, learned that teenagers love to compete but rarely have money to spend, and shut it down. It taught me more about product than any job had. In 2022 I worked at a stealth startup that collects parking, toll and fuel payments by reading number plates, on a stack that is now patent-pending in the US.",
+    "In 2019 I co-founded CrateHunt Esports: online PUBG tournaments with cash prizes. We built the MVP, learned that teenagers love to compete but rarely have money to spend, and shut it down. It taught me more about product than any job had. Next I co-founded Technoloop, a software services startup building mobile and web apps for clients. In late 2022 I joined a stealth startup as an AI/ML engineer, collecting parking, toll and fuel payments by reading number plates, on a stack that is now patent-pending in the US.",
     "Since 2024 I've been at Immilearn building AgentBaba: the runtime its agents run on, the harness that lets non-developers build their own, a database that AI can operate, and the engine behind Avatar Studio's talking virtual humans.",
   ],
   facts: [
@@ -77,17 +77,17 @@ export type Era = {
 export const journey: Era[] = [
   {
     scene: "phone",
-    years: "2015 – 2018",
+    years: "Apr 2015 – May 2018",
     title: "Mobile first",
     subtitle: "iROID Technologies · Independent · Better Tomorrow Online",
-    body: "I learned to ship on phones: native Android in Java at iROID Technologies, apps I built for my own clients, then mobile applications at Better Tomorrow Online. Today I write mobile in Flutter.",
+    body: "I learned to ship on phones: native Android in Java at iROID Technologies (2015), apps I built for my own clients (2016–17), then mobile applications at Better Tomorrow Online (2017–18). Today I write mobile in Flutter.",
     points: [
       "At Better Tomorrow Online, part of the team that integrated AEPS (Aadhaar Enabled Payment System) for Federal Bank with NPCI.",
     ],
   },
   {
     scene: "cart",
-    years: "2018 – 2019",
+    years: "Jun 2018 – Apr 2019",
     title: "Watasale",
     subtitle: "India's first autonomous store",
     body: "A shop with no cashier: walk in, pick up what you want, walk out.",
@@ -100,17 +100,21 @@ export const journey: Era[] = [
   },
   {
     scene: "crosshair",
-    years: "2019 – 2024",
+    years: "Aug 2019 – Dec 2022",
     title: "CrateHunt Esports",
     subtitle: "Co-founder · a two-person startup",
     body: "Online tournaments for PUBG players, with cash prizes for the winners. We built the MVP and ran it, then shut it down. Our players were mostly teenagers: they loved to compete but had little to spend, and no amount of engineering changes that.",
+    points: [
+      "CrateHunt Esports, Aug 2019 – Jun 2020.",
+      "Then co-founded Technoloop, Jun 2020 – Dec 2022: a software services startup building mobile and web apps for clients.",
+    ],
     note: "What it taught me: before you build something, make sure the people who will use it can pay for it.",
   },
   {
     scene: "plate",
-    years: "2022",
+    years: "Dec 2022 – Jun 2023",
     title: "Stealth startup",
-    subtitle: "Parking, toll and fuel payments, by number plate",
+    subtitle: "AI/ML Engineer · parking, toll and fuel payments, by number plate",
     body: "A camera reads a vehicle's number plate, the system confirms which vehicle it really is, and the owner is charged automatically. It works for parking fees and tolls, and at petrol pumps too: fill up and drive off, and the bill is debited without a stop at the counter.",
     points: [
       "Vehicle plate identification from camera feeds.",
@@ -120,7 +124,7 @@ export const journey: Era[] = [
   },
   {
     scene: "knot",
-    years: "2024 – now",
+    years: "Apr 2024 – now",
     title: "Immilearn",
     subtitle: "Senior Software Engineer / AI Researcher",
     body: "Back with a team of ex-Watasale and ex-Amazon engineers, building AgentBaba: an AI-native platform where autonomous workers run a business's operations. I work across the stack, from the agent runtime to the screens people use.",
@@ -164,6 +168,12 @@ export const projects: Project[] = [
     ],
     facts: ["AI workers", "Internal & external app builders", "Email, calls & SMS", "AI Drive", "Studio"],
     diagram: true,
+    media: {
+      src: "/work/agentbaba/poster.webp",
+      alt: "AgentBaba's home page: a prompt box for the autonomous workspace above apps for workspace, AI workers, email, calls, calendar, forms and AI Drive",
+      width: 1440,
+      height: 900,
+    },
   },
   {
     scene: "hub",
@@ -178,6 +188,12 @@ export const projects: Project[] = [
       "Frontend and backend for hiring, building and managing workers.",
     ],
     facts: ["27 ready-made workers", "40+ connectors", "WhatsApp, calls & email", "Worker teams"],
+    media: {
+      src: "/work/agent-marketplace/poster.webp",
+      alt: "Agent Marketplace: cards to create a company or build a team, and ready-made AI workers such as a content writer, a marketing copilot and a social media worker",
+      width: 1440,
+      height: 900,
+    },
   },
   {
     scene: "face",
@@ -193,6 +209,12 @@ export const projects: Project[] = [
     ],
     facts: ["One-line embed", "34 voices, 10 Indian-English", "Answers from your documents", "Acts on your page", "Billed by the minute"],
     status: "Gaining traction",
+    media: {
+      src: "/work/avatar-studio/poster.webp",
+      alt: "Avatar Studio's home page with Maya, a talking virtual sales representative, and a Talk to Maya button",
+      width: 1440,
+      height: 900,
+    },
   },
 ];
 

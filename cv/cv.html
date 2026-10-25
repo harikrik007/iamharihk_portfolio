@@ -1,0 +1,446 @@
+<!doctype html>
+<!--
+  Source for public/cv/Harikrishnan_M_CV.pdf. To regenerate the PDF, open this
+  file in Chrome, print, choose "Save as PDF", A4, margins None, and turn on
+  "Background graphics".
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Harikrishnan M · CV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=block"
+      rel="stylesheet"
+    />
+    <style>
+      @page {
+        size: A4;
+        margin: 0;
+      }
+      :root {
+        --ink: #0d0f14;
+        --text: #2a2e37;
+        --muted: #5f6573;
+        --line: #e3e5ea;
+        --ember: #e8622a;
+        --cyan: #0e9cc2;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      body {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 10mm 12mm 8mm;
+        font-family: "Space Grotesk", system-ui, sans-serif;
+        font-size: 8.5pt;
+        line-height: 1.36;
+        color: var(--text);
+        background: #fff;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .mono {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 8mm;
+        padding-bottom: 4mm;
+        border-bottom: 2px solid transparent;
+        border-image: linear-gradient(90deg, var(--ember), var(--cyan)) 1;
+      }
+      .kicker {
+        font-size: 7pt;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .kicker b {
+        color: var(--ember);
+        font-weight: 500;
+      }
+      h1 {
+        margin-top: 1.5mm;
+        font-size: 25pt;
+        line-height: 1;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        color: var(--ink);
+      }
+      .role {
+        margin-top: 2mm;
+        font-size: 11.5pt;
+        font-weight: 600;
+        background: linear-gradient(90deg, var(--ember), var(--cyan));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .contact {
+        text-align: right;
+        font-size: 8pt;
+        line-height: 1.65;
+        color: var(--muted);
+      }
+      .contact a {
+        color: var(--ink);
+      }
+
+      .summary {
+        margin-top: 3.5mm;
+        font-size: 9pt;
+        line-height: 1.45;
+        color: var(--ink);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 52mm;
+        gap: 7mm;
+        margin-top: 4mm;
+      }
+      h2 {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 7.5pt;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 2.5mm;
+      }
+      h2 b {
+        color: var(--ember);
+        font-weight: 500;
+      }
+
+      .job {
+        padding: 1.7mm 0;
+        border-top: 1px solid var(--line);
+        break-inside: avoid;
+      }
+      .job:first-of-type {
+        border-top: 0;
+        padding-top: 0;
+      }
+      .job-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 4mm;
+        align-items: baseline;
+      }
+      .job h3 {
+        font-size: 9.4pt;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .job h3 span {
+        font-weight: 400;
+        color: var(--muted);
+      }
+      .when {
+        font-size: 7.5pt;
+        white-space: nowrap;
+        color: var(--ember);
+      }
+      .where {
+        font-size: 8pt;
+        color: var(--muted);
+        margin-top: 0.3mm;
+      }
+      ul {
+        list-style: none;
+        margin-top: 0.8mm;
+      }
+      li {
+        position: relative;
+        padding-left: 3.6mm;
+        margin-top: 0.5mm;
+      }
+      li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.55em;
+        width: 1.6mm;
+        height: 1.6mm;
+        border-radius: 0.4mm;
+        background: linear-gradient(135deg, var(--ember), var(--cyan));
+      }
+
+      aside section + section {
+        margin-top: 5mm;
+      }
+      .skill-group + .skill-group {
+        margin-top: 2.6mm;
+      }
+      .skill-group h4 {
+        font-size: 8.4pt;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .chips {
+        margin-top: 1mm;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1mm;
+      }
+      .chip {
+        font-size: 7.6pt;
+        border: 1px solid var(--line);
+        border-radius: 99px;
+        padding: 0.4mm 2mm;
+        color: var(--text);
+      }
+      .plain p + p {
+        margin-top: 1.6mm;
+      }
+      .plain .mono {
+        font-size: 7.6pt;
+        color: var(--cyan);
+      }
+      footer {
+        margin-top: 5mm;
+        padding-top: 2.5mm;
+        border-top: 1px solid var(--line);
+        font-size: 7pt;
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <p class="kicker mono"><b>01</b> // curriculum vitae</p>
+        <h1>Harikrishnan M</h1>
+        <p class="role">Senior Software Engineer / AI Researcher</p>
+      </div>
+      <div class="contact mono">
+        <p>Kerala, India</p>
+        <p><a href="mailto:hari@immilearn.com">hari@immilearn.com</a></p>
+        <p><a href="https://www.iamharihk.com">www.iamharihk.com</a></p>
+        <p><a href="https://www.linkedin.com/in/harikrishnan-m-91a059122/">linkedin.com/in/harikrishnan-m-91a059122</a></p>
+      </div>
+    </header>
+
+    <p class="summary">
+      I build the systems AI agents run on. Over eleven years I've gone from Android apps, to the embedded software and
+      computer-vision models behind India's first autonomous store, to AgentBaba's agentic runtime, its AI-operable
+      database, the agent harness behind its marketplace, and Avatar Studio's real-time avatar engine.
+    </p>
+
+    <div class="grid">
+      <main>
+        <h2><b>02</b> // Experience</h2>
+
+        <div class="job">
+          <div class="job-head">
+            <h3>Senior Software Engineer / AI Researcher</h3>
+            <span class="when mono">Apr 2024 – Present</span>
+          </div>
+          <p class="where">Immilearn India Pvt Ltd · Bengaluru, India</p>
+          <ul>
+            <li>
+              <b>AgentBaba</b> (agentbaba.ai): backend and frontend engineer. Built the agentic runtime that runs AI workers
+              autonomously, and AgentBaba's proprietary database, designed so AI can operate it directly.
+            </li>
+            <li>
+              <b>Agent Marketplace</b>: frontend, backend and the harness every marketplace agent runs on, so people
+              without a technical background can build their own agents.
+            </li>
+            <li>
+              <b>Avatar Studio</b> (avatar.agentbaba.ai): frontend and backend. Built the proprietary avatar engine from
+              R&amp;D to production.
+            </li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3>Mobile Application Developer</h3>
+            <span class="when mono">Jun 2023 – Apr 2024</span>
+          </div>
+          <p class="where">Independent · Remote</p>
+          <ul>
+            <li>Built mobile applications for several companies.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3>AI/ML Engineer</h3>
+            <span class="when mono">Dec 2022 – Jun 2023</span>
+          </div>
+          <p class="where">Stealth AI startup · Remote</p>
+          <ul>
+            <li>
+              Payment collection for parking, tolls and petrol pumps, driven by cameras that identify number plates.
+            </li>
+            <li>
+              Vehicle plate identification from camera feeds, and vehicle identity cross-matching on a proprietary
+              stack. US patent pending.
+            </li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3>Co-Founder <span>· Technoloop</span></h3>
+            <span class="when mono">Jun 2020 – Dec 2022</span>
+          </div>
+          <ul>
+            <li>Co-founded a software services startup building mobile and web applications for clients.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3>Co-Founder <span>· CrateHunt Esports</span></h3>
+            <span class="when mono">Aug 2019 – Jun 2020</span>
+          </div>
+          <p class="where">Kollam, Kerala</p>
+          <ul>
+            <li>
+              Two-person startup running online PUBG tournaments with cash prizes. Built and ran the MVP, then shut it
+              down: the players were mostly teenagers with little to spend.
+            </li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3>Systems Engineer / AI Researcher</h3>
+            <span class="when mono">Jun 2018 – Apr 2019</span>
+          </div>
+          <p class="where">Oranz Technology Solutions, Kochi · Watasale, India's first autonomous store (later acquired by Amazon)</p>
+          <ul>
+            <li>Main developer of the embedded software that powered the store.</li>
+            <li>
+              Trained the AI models that detect each product and the shopper who picks it up or puts it back, so the
+              right person is billed. Built their training and inference pipeline.
+            </li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3>Asst. Systems Engineer &amp; AI Researcher</h3>
+            <span class="when mono">Apr 2017 – May 2018</span>
+          </div>
+          <p class="where">Oranz Technology Solutions, Kochi · Better Tomorrow Online</p>
+          <ul>
+            <li>
+              Mobile applications for a fintech product. Part of the team that integrated AEPS (Aadhaar Enabled
+              Payment System) for Federal Bank with NPCI.
+            </li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3>Mobile Application Developer <span>· Independent</span></h3>
+            <span class="when mono">Jan 2016 – Apr 2017</span>
+          </div>
+          <ul>
+            <li>Android apps for clients.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <div class="job-head">
+            <h3>Junior Android Developer</h3>
+            <span class="when mono">Apr 2015 – Dec 2015</span>
+          </div>
+          <p class="where">iROID Technologies · Kochi</p>
+          <ul>
+            <li>Native Android apps in Java.</li>
+          </ul>
+        </div>
+      </main>
+
+      <aside>
+        <section>
+          <h2><b>03</b> // Skills</h2>
+          <div class="skill-group">
+            <h4>Agentic AI</h4>
+            <div class="chips">
+              <span class="chip">Agent runtimes</span><span class="chip">Harness engineering</span
+              ><span class="chip">Tool use &amp; actions</span><span class="chip">Multi-agent workflows</span
+              ><span class="chip">Agent memory &amp; state</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <h4>Machine learning &amp; R&amp;D</h4>
+            <div class="chips">
+              <span class="chip">LLM applications</span><span class="chip">Product &amp; person detection</span
+              ><span class="chip">Number plate recognition</span><span class="chip">Training &amp; inference pipelines</span
+              ><span class="chip">Real-time avatar engines</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <h4>Web &amp; backend</h4>
+            <div class="chips">
+              <span class="chip">FastAPI</span><span class="chip">Django</span><span class="chip">Next.js</span
+              ><span class="chip">React</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <h4>Mobile</h4>
+            <div class="chips"><span class="chip">Flutter</span><span class="chip">Java / Android</span></div>
+          </div>
+          <div class="skill-group">
+            <h4>Systems</h4>
+            <div class="chips">
+              <span class="chip">Embedded software</span><span class="chip">IoT</span><span class="chip">Database design</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <h4>Languages</h4>
+            <div class="chips">
+              <span class="chip">Python</span><span class="chip">JavaScript / TypeScript</span><span class="chip">Dart</span
+              ><span class="chip">Java</span><span class="chip">C / C++</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="plain">
+          <h2><b>04</b> // Live products</h2>
+          <p><b>AgentBaba</b><br /><a class="mono" href="https://agentbaba.ai">agentbaba.ai</a></p>
+          <p>
+            <b>Agent Marketplace</b><br /><a class="mono" href="https://agentbaba.ai/agent-marketplace"
+              >agentbaba.ai/agent-marketplace</a
+            >
+          </p>
+          <p><b>Avatar Studio</b><br /><a class="mono" href="https://avatar.agentbaba.ai">avatar.agentbaba.ai</a></p>
+          <p><b>Studio</b><br /><a class="mono" href="https://studio.agentbaba.ai">studio.agentbaba.ai</a></p>
+        </section>
+
+        <section class="plain">
+          <h2><b>05</b> // Education</h2>
+          <p>
+            <b>BTech, Electrical, Electronics &amp; Communication</b><br />College of Engineering, Perumon<br /><span
+              class="mono"
+              >2011 – 2015</span
+            >
+          </p>
+        </section>
+      </aside>
+    </div>
+
+  </body>
+</html>

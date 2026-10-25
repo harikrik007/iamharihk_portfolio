@@ -41,6 +41,7 @@ To add a stage, add an entry to `SCENES`, add a builder with the same id in `sha
 | Project screenshot frame, AgentBaba diagram | `src/components/BrowserFrame.tsx`, `RuntimeDiagram.tsx` |
 | Theme colours and fonts (the 3D colours read these too) | `src/app/globals.css`, `src/app/layout.tsx` |
 | Social share image, robots.txt, sitemap | `src/app/opengraph-image.tsx`, `robots.ts`, `sitemap.ts` |
+| Project screenshots, CV PDF | `public/work/`, `public/cv/` (the CV's source is `cv/cv.html`) |
 
 ## Deploy
 
